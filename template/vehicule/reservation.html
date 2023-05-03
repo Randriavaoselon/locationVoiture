@@ -1,0 +1,581 @@
+{% extends "base/base.html" %}
+{% block title %} Réservation {% endblock title%}
+{% load static %}
+{% block content %}
+   
+    <style>
+      body{
+         font-family: 'Poppin', sans-serif;
+         background-image: url('../../static/images/fond3_fin.jpg');
+         background-attachment: fixed;
+      }
+
+      .btn-file{
+         position: relative;
+         overflow: hidden;
+      }
+      .btn-file input[type=file]{
+         position: absolute;
+         top: 0;
+         right: 0;
+         min-width: 100%;
+         min-height: 100%;
+         font-size: 100px;
+         text-align: right;
+         filter: alpha(opacity=0);
+         opacity: 0;
+         background: white;
+         outline: none;
+         cursor: pointer;
+         display: block;
+      }
+
+      .page{
+        display: none;
+      }
+
+      .card-header{
+        display: flex;
+        justify-content: space-between;
+      }
+      .page-num{
+        border: 1px solid blue;
+        border-radius: 100%;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        padding: 10px;
+      }
+      .active{
+        color: white;
+        background-color: blue;
+      }
+    </style>
+
+    <div class="container-fuild" style="margin-top: 30px;">
+       <div class="row">
+         <div class="col-md-10 offset-md-1">
+            <div class="card" style="border-color: blue;">
+               <div class="card-header bg-info text-white">
+                  
+               </div>
+               <div class="card-body" style="background-color: #e9ecef;">
+                  <form action="" method="POST" autocomplete="off" enctype="multipart/form-data" role="form">
+                       {% csrf_token %}
+                     <div class="page" id="page1">  
+                        <h5 class="text-center">Réservation</h5><br><br>
+                        <div class="row">
+                           
+                           <div class="col-md-6">
+                              <label for="km">Kilometrage</label>
+                              <div class="form-group">
+                                 <input type="text" class="form-control" value="{{vehicule.kilometrage}}" name="kilometrage" id="km" readonly>
+                                 <span id="available"></span>
+                              </div>
+                           </div>
+
+                           <div class="col-md-6">
+                              <label for="type_vehic">Type de véhicule</label>
+                              <div class="form-group">
+                                 <input type="text" class="form-control" value="{{vehicule.type_vehicule}}" name="type_vehicule" id="type_vehic" readonly>
+                                 <span id="available"></span>
+                              </div>
+                           </div>
+                           
+                           <div class="col-md-6">    
+                              <label for="marq_vehic">Marque de vehicule</label>
+                              <div class="form-group">
+                                 <input type="text" class="form-control" value="{{vehicule.marque_vehicule}}" name="marque_vehicule" id="marq_vehic" readonly>
+                                 <span id="available"></span>
+                              </div>
+                           </div>
+                           
+                           <div class="col-md-6">
+                              <label for="dataR">Date de reservation</label>
+                              <input  type="date" class="form-control" name="date_reservetion" id="task" required="">  
+                           </div>
+
+                           <!-- <div class="md-3">
+                              <select class="form-control" name="client_loueur" id="type_prix">
+                                    <option value="{{vehicule.id}}">{{vehicule.client_loueur.user}}</option>
+                              </select>
+                           </div> -->
+
+                        </div>
+                        <br>
+                        <a class="btn btn-success" style="border-radius: 30px;" href="{% url 'liste' %}">Fermer</a>
+                        <button class="next btn-primary" style="height: 40px; width: 100px; text-align: center; border-radius: 30px;" id="button" type="button" disabled>Suivant</button>
+                     </div>
+                     
+                     <div class="page" id="page2">
+                        <h5 class="text-center">Réservation</h5><br><br>  
+                           <div class="row">
+                              <div class="col-md-6">
+                                 <label for="type_prix">Type de prix</label>
+                                 <select class="form-control" name="type_prix" id="type_prix">
+                                       <option value="Prix journaliaire">Prix journaliaire</option>
+                                       <!-- <option value="Prix/kilometrage">Prix/kilometrage</option> -->
+                                 </select>
+                              </div>
+
+                           <div class="col-md-6">
+                              <label for="prixJ">Prix journalier</label>
+                              <input type="number" class="form-control" value="{{vehicule.prixJ}}" name="prixJ" id="prixj" readonly> 
+                           </div>
+                           
+                           <div class="col-md-6">
+                              <label for="dataD">Date debut</label>
+                              <input type="date" class="form-control" name="dt_debut" id="start_date" required="">  
+                           </div>
+
+                           <div class="col-md-6">
+                              <label for="dataF">Date fin</label>
+                              <input type="date" class="form-control" name="dt_fin" id="end_date" onchange="getDays()" required="">  
+                           </div>
+
+                           <div class="col-md-6">
+                              <label for="dure"> Jours</label>
+                              <input type="number" class="form-control" placeholder="Nombre des jours" name="jours" id="days" readonly>  
+                           </div>
+
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="mont">Montants total</label>
+                                 <!-- <input type="number" class="form-control" step="0.1" min="1000" name="montant" placeholder="minimum:1000 €" id="mont" required=""> -->
+                                 <input type="number" class="form-control" name="montant_total" placeholder="montants à payer" id="mont" readonly>
+                                 <span id="value"></span>
+                              </div>
+                           </div>
+                           </div>
+                           <br>
+                           <button class="prev" style="background-color: gray; color:#e9ecef; height: 40px; width: 100px; text-align: center; border-radius: 30px;" type="button">Précedent</button>
+                           <button class="next btn-primary" style="height: 40px; width: 100px; text-align: center; border-radius: 30px;" id="button1" type="button" disabled>Suivant</button>
+                          
+                        </div> 
+
+                  <div class="page" id="page3">
+                        <!-- <h5 class="text-center">Inscription</h5><br><br>
+                        <div class="row">
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="nom_client">Nom et Prenom</label>
+                                 <input type="text" class="form-control" name="nom" id="nom_client" required="">
+
+                              </div>
+                           </div>
+
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="prenom_client">Nationalité</label>
+                                 <select class="form-control" name="nation" id="nation">
+                                    <option value="">Votre nationaliter</option>
+                                    <option value="Malagasy">Malagasy</option>
+                                    <option value="Etranger">Etranger</option>
+                                 </select>
+
+                              </div>
+                           </div>
+
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="date_nais">Date de naissance</label>
+                                 <input type="date" class="form-control" min="1987-01-01" max="1999-01-01" name="date_nais" id="date_nais">
+                              </div>
+                           </div>
+
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="email_client">Email</label>
+                                 <input type="email" class="form-control" name="email" id="email_client" placeholder="exemple@gmail.com" required="">
+
+                              </div>
+                           </div>
+
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="ville_client">Ville</label>
+                                 <input type="text" class="form-control" name="ville" id="ville_client" required="">
+
+                              </div>
+                           </div>
+
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label for="add_client">Adresse</label>
+                                 <input type="text" class="form-control" name="adresse" id="add_client" required="">
+
+                              </div>
+                           </div>
+
+                        </div> -->
+                        <div class="row">
+                           <div class="col-md-8">
+                              <div class="row">
+   
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="nom_client">Nom et Prenom</label>
+                                       <input type="text" class="form-control" name="nom" id="nom_client" required="">
+   
+                                    </div>
+                                 </div>
+   
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="prenom_client">Nationalité</label>
+                                       <select class="form-control" name="nation" id="nation">
+                                          <option value="">Votre nationaliter</option>
+                                          <option value="Malagasy">Malagasy</option>
+                                          <option value="Etranger">Etranger</option>
+                                       </select>
+   
+                                    </div>
+                                 </div>
+   
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="date_nais">Date de naissance</label>
+                                       <input type="date" class="form-control" min="1987-01-01" max="1999-01-01" name="date_nais" id="date_nais">
+                                    </div>
+                                 </div>
+   
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="email_client">Email</label>
+                                       <input type="email" class="form-control" name="email" id="email_client" placeholder="exemple@gmail.com" required="">
+   
+                                    </div>
+                                 </div>
+   
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="ville_client">Ville</label>
+                                       <input type="text" class="form-control" name="ville" id="ville_client" required="">
+   
+                                    </div>
+                                 </div>
+   
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="add_client">Adresse</label>
+                                       <input type="text" class="form-control" name="adresse" id="add_client" required="">
+   
+                                    </div>
+                                 </div>
+   
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="cin_client">Cin</label>
+                                       <input type="text" onkeypress="return onlyNumberKey(event)"
+                                       maxlength="12" class="form-control" name="cins" id="cin_client" required="">
+   
+                                    </div>
+                                 </div>
+   
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="cp_client">Code Postale</label>
+                                       <input type="text" onkeypress="return onlyNumberKey(event)"
+                                          maxlength="3" class="form-control" name="cd_poste" id="cp_client" required="">
+                                       <span id="available"></span>
+                                    </div>
+                                 </div>
+   
+                              </div>
+                           </div>
+                           <!-- display image -->
+                           <div class="col-md-4">
+                              <div class="row">
+                                 <div class="col-md-12" id="selectedBanner">
+                                    <div class="text-align: center;">
+                                       <img id="img-upload">
+                                       <div >
+                                          <img src="{% static 'images/profile.png' %}" id="image" alt="" width="200px" height="180px">
+                                       </div>
+                                       <br><br>
+                                       <div class="input-group">
+                                          <span class="input-group-btn">
+                                             <span class="btn btn-info btn-file">
+                                                Choisir l'image <input type="file" id="img" name="avatar" onchange="previewPicture(this)" required>
+                                             </span>
+                                          </span>
+                                          <input type="text" class="form-control" name="" id="indica" placeholder="Mettez votre photo" readonly>
+                                       </div>
+                                    </div> 
+                                 </div>
+                                 <!-- Departement -->
+                                 <div class="col-md-12">
+                                    <div class="form-group">
+   
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+   
+                           <!-- Salary -->
+                           <div class="col-md-4">
+                                <div class="form-group">
+                                   <label for="phone_client">Numéro Télephone</label><br>
+                                   <input type="tel" class="form-control" name="tel" id="phone_client" onkeypress="return onlyNumberKey(event)"  maxlength="10" required="">
+                                </div>
+                           </div>
+   
+                           <!-- incentive -->
+                           <div class="col-md-4">
+                              <div class="form-group">
+                                 <label for="np_client">Numero permis</label>
+                                 <input type="text" onkeypress="return onlyNumberKey(event)"
+                                 maxlength="13" class="form-control" placeholder="Votre numéro permis" name="num_permis" id="np_client" required="">
+                              </div>
+                           </div>
+   
+                           <!-- langue -->
+                           <div class="col-md-4">
+                              <fieldset class="form-group">
+                                 <p>Genre</p>
+   
+                                 <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                       <input type="radio" class="form-check-input" name="sex" value="Homme">Homme
+                                    </label>
+                                 </div>
+                                 <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                       <input type="radio" class="form-check-input" name="sex" value="Femme">Femme
+                                    </label>
+                                 </div>
+                              </fieldset>
+                           </div>
+   
+                        </div>
+                        <br>
+                        <button class="prev" style="background-color: gray; color:#e9ecef; height: 40px; width: 100px; text-align: center; border-radius: 30px;" type="button">Précedent</button>
+                        <button type="submit" class="btn btn-primary" id="sub1" style="border-radius: 30px;">Envoyer</button>
+                  
+                     </div>  
+
+                  </form>
+               </div>
+            </div>
+            <br><br>
+         </div>
+       </div>
+    </div>
+
+   <script>
+      //on va chercher les differents élements de notre page
+        const pages = document.querySelectorAll(".page")
+        const header = document.querySelector(".card-header")
+        const nbPages = pages.length //nombre des pages du formulaire
+  
+        let pageActive = 1
+  
+        //on attend le chargement de la page
+        window.onload = () =>{
+          //on affiche la 1er page du formulaire
+          document.querySelector(".page").style.display = "initial"
+  
+          //afficher les numéro de page dans l'entete
+          //on parcours la liste des pages
+          pages.forEach((page, index) =>  {
+            //on crée l'élement "numero de page"
+            let element = document.createElement("div")
+            element.classList.add("page-num")
+            element.id = "num" + (index + 1)
+            if(pageActive === index + 1){
+              element.classList.add("active")
+            }
+            element.innerHTML = index + 1
+            header.appendChild(element)
+  
+          })
+  
+          //On gere les bouton "suivant"
+          let boutons = document.querySelectorAll(".next")
+          for(let bouton of boutons){
+            bouton.addEventListener("click", pageSuivante)
+          }
+  
+          //On gere les bouton "precedente"
+          boutons = document.querySelectorAll(".prev")
+          for(let bouton of boutons){
+            bouton.addEventListener("click", pagePrecedente)
+          }
+        }
+        /*
+          Cette fonction fait avancer le formulaire d'une page
+        */
+       function pageSuivante(){
+       
+        //on masque toute les pages
+        for(let page of pages){
+          page.style.display = "none"
+        }
+  
+        //on affiche la page suivante
+        this.parentElement.nextElementSibling.style.display = "initial"
+  
+        //on "desactive" tous la pages active 
+        document.querySelector(".active").classList.remove("active")
+        
+         //on incremente page active
+         pageActive++
+        
+         //on active le nouveau numéro
+         document.querySelector("#num"+pageActive).classList.add("active")
+       }
+  
+       /*
+          Cette fonction fait reculer le formulaire d'une page
+        */
+        function pagePrecedente(){
+       
+       //on masque toute les pages
+       for(let page of pages){
+         page.style.display = "none"
+       }
+  
+       //on affiche la page suivante
+       this.parentElement.previousElementSibling.style.display = "initial"
+  
+       //on "desactive" tous la pages active 
+       document.querySelector(".active").classList.remove("active")
+       
+        //on incremente page active
+        pageActive--
+       
+        //on active le nouveau numéro
+        document.querySelector("#num"+pageActive).classList.add("active")
+      }
+   </script>
+   <script>
+      //get the days between two dates
+ 
+      function getDays(){
+ 
+      var start_date = new Date(document.getElementById('start_date').value);
+      var end_date = new Date(document.getElementById('end_date').value);
+      var prixJ = document.getElementById('prixj').value;
+      //var prixKm = document.getElementById('prixKm').value;
+      var select = document.getElementById('type_prix').value;
+      //Here we will use getTime() function to get the time difference
+      var time_difference = end_date.getTime() - start_date.getTime();
+      //Here we will divide the above time difference by the no of miliseconds in a day
+      var days_difference = time_difference / (1000*3600*24);
+       //alert(days);
+      document.getElementById('days').value = days_difference;
+      if (select == "Prix journaliaire"){
+         var total = days_difference * prixJ;
+         document.getElementById('mont').value = total;
+      }else{
+         var total = days_difference * prixJ;
+         document.getElementById('mont').value = total;
+      }
+      } 
+
+   </script>
+   <script type="text/javascript" >
+      // L'image img#image
+      var image = document.getElementById("image");
+       
+      // La fonction previewPicture
+      var previewPicture  = function (e) {
+  
+          // e.files contient un objet FileList
+          const [picture] = e.files
+  
+          // "picture" est un objet File
+          if (picture) {
+              // On change l'URL de l'image
+              image.src = URL.createObjectURL(picture)
+          }
+      } 
+   </script>
+   <script>
+      let button = document.getElementById("button")
+      let button1 = document.getElementById("button1")
+      let input = document.getElementById("task")
+
+      let inputa = document.getElementById("start_date")
+      let inputb = document.getElementById("end_date")
+
+      let inputc = document.getElementById("nom_client")
+      let inputd = document.getElementById("date_nais")
+      let inpute = document.getElementById("email_client")
+      let inputf = document.getElementById("ville_client")
+      let inputg = document.getElementById("add_client")
+      let button2= document.getElementById("button2")
+
+      input.addEventListener("input", function(e) {
+         if(input.value.length == 0) {
+         button.disabled = true
+      } else {
+         button.disabled = false
+      }
+      })
+      //page2
+      inputa.addEventListener("input", function(e) {
+         if(inputa.value.length == 0) {
+         button1.disabled = true
+      } else {
+         button1.disabled = false
+      }
+      })
+      //page3
+      inputb.addEventListener("input", function(e) {
+         if(inputb.value.length == 0) {
+         button2.disabled = true
+      } else {
+         button2.disabled = false
+      }
+      })
+      inputc.addEventListener("input", function(e) {
+         if(inputc.value.length == 0) {
+         button2.disabled = true
+      } else {
+         button2.disabled = false
+      }
+      })
+      inputd.addEventListener("input", function(e) {
+         if(inputd.value.length == 0) {
+         button2.disabled = true
+      } else {
+         button2.disabled = false
+      }
+      })
+      inpute.addEventListener("input", function(e) {
+         if(inpute.value.length == 0) {
+         button2.disabled = true
+      } else {
+         button2.disabled = false
+      }
+      })
+      inputf.addEventListener("input", function(e) {
+         if(inputf.value.length == 0) {
+         button2.disabled = true
+      } else {
+         button2.disabled = false
+      }
+      })
+      inputg.addEventListener("input", function(e) {
+         if(inputg.value.length == 0) {
+         button2.disabled = true
+      } else {
+         button2.disabled = false
+      }
+      })
+   </script>
+   <!-- script pour limiter la valeur d'un champ -->
+   <script>
+      function onlyNumberKey(evt) {
+         
+         // Only ASCII character in that range allowed
+         var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+         if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+         return true;
+      }
+   </script>
+   
+{% endblock %}
+

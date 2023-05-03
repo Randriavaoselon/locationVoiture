@@ -1,0 +1,106 @@
+{% extends "client/loueur/layouts/base.html" %}
+{% block title %} Compte principale de {{user.first_name}} {% endblock title%}
+
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+
+<style>
+    /*bootstrap VS:5*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+
+
+        body{
+            background-color: #272727;
+        }
+
+      .btn-file{
+         position: relative;
+         overflow: hidden;
+      }
+      .btn-file input[type=file]{
+         position: absolute;
+         top: 0;
+         right: 0;
+         min-width: 100%;
+         min-height: 100%;
+         font-size: 100px;
+         text-align: right;
+         filter: alpha(opacity=0);
+         opacity: 0;
+         background: white;
+         outline: none;
+         cursor: pointer;
+         display: block;
+      }
+    </style>
+
+{% include 'client/loueur/includes/sidenav.html' %}
+
+
+<div class="main-content" id="panel">
+    {% include "client/loueur/includes/navigation.html" %}
+
+    <div class="container-fuild" style="margin-top: 30px;">
+       <div class="row">
+         <div class="col-md-10 offset-md-1">
+            <div class="card" style="border-color: blue;">
+               <div class="card-header bg-info text-white">
+                  <h><b> Vehicule</b></h>
+               </div>
+               <div class="card-body" style="background-color: #e9ecef;">
+                  <form action="{% url 'edite_reserve' reserve.id %}" method="POST" enctype="multipart/form-data" role="form">
+                       {% csrf_token %}
+                     <div class="row">
+                        
+                        <div class="col-md-6">
+                           <label for="Imm">Immatriculation</label>
+                           <input type="text" class="form-control" name="numImm" value="{{reserve.numImm}}" id="Imm" required=""> 
+                        </div>
+                        
+                        <div class="col-md-6">
+                           <label for="num_serie">Numéro série</label>
+                           <input type="text" class="form-control" name="numSerie" value="{{reserve.numSerie}}" id="num_serie" required=""> 
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="type_vehic">Type de vehicule</label>
+                            <input type="text" class="form-control" name="type_vehicule" value="{{reserve.type_vehicule}}" id="mont" required=""> 
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="kilometr">Kilometrage</label>
+                            <input type="text" class="form-control" name="kilometrage" value="{{reserve.kilometrage}}" id="mont" required=""> 
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="marque_vehic">Marque de vehicule</label>
+                            <input type="text" class="form-control" name="marque_vehicule" value="{{reserve.marque_vehicule}}" id="mont" required=""> 
+                        </div>
+
+                        <div class="col-md-6">
+                           <div class="form-group">
+                              <label for="mont">Prix</label>
+                              <input type="number" class="form-control" name="prixJ" value="{{reserve.prixJ}}" id="mont" required="">
+                              <span id="available"></span>
+                           </div>
+                        </div>
+
+                        <div class="col-md-12" style="text-align: center;">
+                           <a class="btn btn-warning" style="width: 100px; border-radius: 10px;" href="{% url 'home_loueur' %}">Quitter</a>
+                            &nbsp;&nbsp;
+                           <input type="submit" id="btn" name="" value="Valider" class="btn btn-primary" style="width: 100px; border-radius: 10px;">
+                            &nbsp;&nbsp;
+                        </div>
+
+                     </div>
+                  </form>
+               </div>
+            </div>
+            <br><br>
+         </div>
+       </div>
+    </div>
+
+</div>
+{% endblock %}    

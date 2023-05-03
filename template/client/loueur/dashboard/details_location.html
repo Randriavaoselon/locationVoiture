@@ -1,0 +1,195 @@
+{% extends "client/loueur/layouts/base.html" %}
+{% block title %} Compte principale de {{user.first_name}} {% endblock title%}
+
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+
+<style>
+    /*bootstrap VS:5*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+    body{
+            background-color: #272727;
+        }
+
+      .btn-file{
+         position: relative;
+         overflow: hidden;
+      }
+      .btn-file input[type=file]{
+         position: absolute;
+         top: 0;
+         right: 0;
+         min-width: 100%;
+         min-height: 100%;
+         font-size: 100px;
+         text-align: right;
+         filter: alpha(opacity=0);
+         opacity: 0;
+         background: white;
+         outline: none;
+         cursor: pointer;
+         display: block;
+      }
+    </style>
+
+{% include 'client/loueur/includes/sidenav.html' %}
+
+
+<div class="main-content" id="panel">
+    {% include "client/loueur/includes/navigation.html" %}
+
+      <div class="header bg-primary pb-6">
+        <div class="container-fluid">
+          <div class="header-body">
+            <div class="row align-items-center py-4">
+              <div class="col-lg-6 col-7">
+                <h6 class="h2 text-white d-inline-block mb-0">Personne:</h6>
+                <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                  <ol class="breadcrumb breadcrumb-links breadcrumb-dark">    
+                    <li class="breadcrumb-item"><a href="#">{{locs.nom_Client}}</a></li>
+                  </ol>
+                </nav>
+              </div>
+              <div class="col-lg-6 col-5 text-right">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid mt--6">
+        <div class="row">
+          <div class="col-md-10 offset-md-1">
+             <div class="card" style="border-color: blue;">
+                <div class="card-header bg-info text-white">
+                   <h><b>Informations</b></h>
+                </div>
+                <div class="card-body" style="background-color: #e9ecef;">
+                   <form action="" url="/upload-picture" enctype="multipart/form-data" role="form">
+                      {% csrf_token %}
+                      <div class="row">
+                         <div class="col-md-8">
+                            <div class="row">
+ 
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="nom_client">Nom et Prenom</label>
+                                     <input type="text" class="form-control bg-white" name="" value="{{locs.nom_Client.nom}}" id="nom_client" readonly>
+ 
+                                  </div>
+                               </div>
+ 
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="prenom_client">Nationalité</label>
+                                     <input type="text" class="form-control bg-white" name="" value="{{locs.nom_Client.nation}}" id="nom_client" readonly>
+ 
+                                  </div>
+                               </div>
+ 
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="date_nais">Date de naissance</label>
+                                     <input type="date" class="form-control bg-white" name="" value="{{locs.nom_Client.date_nais|date:'Y-m-d'}}" id="date_nais" readonly>
+                                  </div>
+                               </div>
+ 
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="email_client">Email</label>
+                                     <input type="text" class="form-control bg-white" name="" value="{{locs.nom_Client.email}}" id="email_client" readonly>
+ 
+                                  </div>
+                               </div>
+ 
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="ville_client">Ville</label>
+                                     <input type="text" class="form-control bg-white" name="" value="{{locs.nom_Client.ville}}" id="ville_client" readonly>
+ 
+                                  </div>
+                               </div>
+ 
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="add_client">Adresse</label>
+                                     <input type="text" class="form-control bg-white" name="" value="{{locs.nom_Client.adresse}}" id="add_client" readonly>
+ 
+                                  </div>
+                               </div>
+ 
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="cin_client">Cin</label>
+                                     <input type="text" class="form-control bg-white" name="" value="{{locs.nom_Client.cins}}" id="cin_client" readonly>
+ 
+                                  </div>
+                               </div>
+ 
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="cp_client">Code Postale</label>
+                                     <input type="number" class="form-control bg-white" name="cd_poste" value="{{locs.nom_Client.cd_poste}}" id="cp_client" readonly>
+                                     <span id="available"></span>
+                                  </div>
+                               </div>
+ 
+                            </div>
+                         </div>
+                         <!-- display image -->
+                         <div class="col-md-4">
+                            <div class="row">
+                               <div class="col-md-12" id="selectedBanner">
+                                  <div class="text-align: center;">
+                                     <img id="img-upload">
+                                     <div >
+                                        <img src="{{locs.nom_Client.avatar.url}}" id="image" alt="" width="200px" height="180px">
+                                     </div>
+                                     <br><br>
+                                     <div class="input-group">
+                                        <input type="text" class="form-control bg-white bg-white" name="" placeholder="sex: {{locs.nom_Client.sex}}" id="indica" placeholder="Mettez votre photo" readonly>
+                                     </div>
+                                  </div> 
+                               </div>
+                               <!-- Departement -->
+                               <div class="col-md-12">
+                                  <div class="form-group">
+ 
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+ 
+                         <!-- Salary -->
+                         <div class="col-md-4">
+                              <div class="form-group">
+                                 <label for="phone_client">Phone</label>
+                                 <input type="text" class="form-control bg-white" name="tel" value="{{locs.nom_Client.tel}}" id="phone_client" readonly>
+                              </div>
+                         </div>
+ 
+                         <!-- incentive -->
+                         <div class="col-md-4">
+                            <div class="form-group">
+                               <label for="np_client">Numero permis</label>
+                               <input type="text" class="form-control bg-white" name="" value="{{locs.nom_Client.num_permis}}" id="np_client" readonly>
+                            </div>
+                         </div>
+ 
+                         
+                          <!-- Boutton -->
+                          <div class="modal-footer">
+                            <a class="btn btn-success" style="width: 100px; border-radius: 10px;" href="{% url 'home_loueur' %}">Retour</a>
+                            &nbsp;&nbsp;
+                      </div>
+                   </form>
+                </div>
+             </div>
+             <br><br>
+          </div>
+        </div>
+        
+      </div>
+</div>    
+
+{% endblock %}    

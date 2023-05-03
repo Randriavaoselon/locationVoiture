@@ -1,0 +1,618 @@
+{% extends "base/base.html" %}
+{% block title %} Acceuil de réservation {% endblock title%}
+{% load static %}
+{% block content %}
+   
+<style>
+          /*bootstrap VS:5*/
+ @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+*{
+ font-family: 'Montserrat', sans-serif;
+}
+
+ .redressed {
+    font-family: Arial, Helvetica, sans-serif, cursive ;
+ }
+
+ .merriweather {
+    font-family: Arial, Helvetica, sans-serif, serif;
+ }
+
+ .cc-navbar {
+     background-color: rgba(0, 0, 0, 0.55);
+     font-family: Arial, Helvetica, sans-serif;
+     box-shadow: 1px 1px 3px rgba(255, 255, 255, 0.54);
+     z-index: 99;
+ }
+
+ .cc-navbar .nav-link {
+     border-bottom: 1px solid transparent;
+     transition: padding-bottom .4s ease-in-out, border-color .3s ease;
+ }
+
+ .cc-navbar .nav-link:hover{
+    padding-bottom: 20px;
+    border-bottom-color: var(--bs-teal);
+ }
+
+ .banner,
+ .order-form {
+    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('../../static/images/fond3_fin.jpg') center center fixed no-repeat;
+    background-size: cover;
+    height: 800px;
+ }
+
+ .order-form {
+   height: 500px;
+ }
+
+ .banner .banner-desc {
+    font-size: 48px;
+    font-weight: 400;
+    color: #fff;
+ }
+
+ .cc-menu {
+   background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('../../static/images/fond3_fin.jpg') center center fixed no-repeat;
+   background-size: cover;
+   height: 1200px;
+ }
+
+ .btn-order {
+    color: var(--bs-teal);
+    border-color: var(--bs-teal);
+    transition: 0.5s;
+ }
+ .btn-order:hover,
+ .btn-order:active {
+     color: #fff;
+     background-color: var(--bs-teal);
+ }
+
+ /* style footer */
+.footer-content{
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+text-align: center;
+}
+.footer-content h3{
+font-size: 2.1rem;
+font-weight: 500;
+text-transform: capitalize;
+line-height: 3rem;
+}
+.footer-content p{
+max-width: 500px;
+margin: 10px auto;
+line-height: 28px;
+font-size: 14px;
+color: #cacdd2;
+}
+.socials{
+list-style: none;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 1rem 0 3rem 0;
+}
+.socials li{
+margin: 0 10px;
+}
+.socials a{
+text-decoration: none;
+color: #fff;
+border: 1.1px solid white;
+padding: 5px;
+
+border-radius: 50%;
+
+}
+.socials a i{
+font-size: 1.1rem;
+width: 20px;
+
+
+transition: color .4s ease;
+
+}
+.socials a:hover i{
+color: aqua;
+}
+
+.footer-bottom{
+text-align: center;
+}
+
+.footer-bottom p{
+ float: left;
+ font-size: 14px;
+ word-spacing: 2px;
+ text-transform: capitalize;
+}
+.footer-bottom p a{
+color:#44bae8;
+font-size: 16px;
+text-decoration: none;
+}
+.footer-bottom span{
+text-transform: uppercase;
+opacity: .4;
+font-weight: 200;
+}
+.footer-menu{
+float: right;
+
+}
+.footer-menu ul{
+display: flex;
+}
+.footer-menu ul li{
+padding-right: 10px;
+display: block;
+}
+.footer-menu ul li a{
+color: #cfd2d6;
+text-decoration: none;
+}
+.footer-menu ul li a:hover{
+color: #27bcda;
+}
+
+@media (max-width:500px) {
+.footer-menu ul{
+display: flex;
+margin-top: 10px;
+margin-bottom: 20px;
+}
+}
+
+</style>
+{% include 'base/navbar.html' %}
+<section class="banner d-flex justify-content-center align-items-center pt-5">
+   <div class="container my-5 py-5">
+      <div class="row">
+         <div class="col-md-6">
+           <div class="card" style="height: 20rem;" >
+            <div class="modal-body">
+              <form action="" method="get">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="recherche" class="col-form-label">Réchercher votre nom :</label>
+                  <input  name="q" class="form-control" type="search" id="recherche" placeholder="rechercher ici..." />
+                </div>
+              </form>
+              <div class="table-responsive" style="height: 10rem;">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Numero location</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for locationvt in loc %}
+                       <tr>
+                                <th scope="col">{{ locationvt.nom_Client }}</th>
+                                <th scope="col" style="text-align: center;">{{ locationvt.id }}</th>
+                                <th scope="col">
+                                  <a class="btn btn-success btn-lg me-2 rounded-0 merriweather" href="{% url 'voiture' pk=locationvt.id %}">Reserver maintenant</a>
+                                </th>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+              </div>
+            </div>
+           </div>
+         </div>
+         <div class="col-md-6">
+            <h1 class="text-capitalize py-3 redressed banner-desc">
+              Vous aimez notre modeles, veuillez faire votre reservation maitenant.
+            </h1>
+            <p>
+              <!-- <a class="btn btn-order btn-lg me-5 rounded-0 merriweather" href="">Réserver maintenant</a>      -->
+            </p>
+         </div>
+      </div>
+   </div>
+</section>
+
+<section class="available merriweather py-5" id="desc">
+   <div class="container">
+      <div class="row">
+         <div class="card mb-3 border-0 rounded-0">
+            <div class="row">
+              <div class="col-md-6">
+                <img src="{% static 'images/vt1.webp' %}" class="img-fluid" alt="...">
+              </div>
+              <div class="col-md-6">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <p class="card-text"><a href="#" class="text-muted btn">Last updated 3 mins ago</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card my-5 border-0 rounded-0">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <p class="card-text"><a href="#" class="text-muted btn">Last updated 3 mins ago</a></p>
+                </div>
+              </div>
+              <div class="col-md-6">
+               <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                  <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                  </div>
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img src="{% static 'images/vt2.webp' %}" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="{% static 'images/vt3.webp' %}" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="{% static 'images/vt1.webp' %}" class="d-block w-100" alt="...">
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+              </div>
+          </div>
+
+          <div class="card mb-3 border-0 rounded-0">
+            <div class="row">
+              <div class="col-md-6">
+                <img src="{% static 'images/vt3.webp' %}" class="img-fluid" alt="...">
+              </div>
+              <div class="col-md-6">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <p class="card-text"><a href="#" class="text-muted btn">Last updated 3 mins ago</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+   </div>
+</section>
+
+<section class="cc-menu py-5 merriweather" id="model">
+  <div class="container">
+     <div class="row">
+       <h3 class="text-center text-light merriweather">Nouveau models</h3>
+       <div class="card bg-transparent text-center mb-4">
+        <div class="card-header redressed fs-4">
+
+        </div>
+        <div class="card-body text-light">
+          <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        </div>
+      </div>
+     </div>
+     
+     <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col">
+        <div class="card">
+          <img src="{% static 'images/vh1.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Mercedes</h5>
+            <p class="card-text"><strong>Type: </strong> Lorem</p>
+            <p class="card-text"><strong>Marque: </strong> Lorem</p>
+            <p class="card-text"><strong>Km/h:</strong> 20km</p>
+            <p class="card-text"><strong>Prix:</strong> 360£</p>
+          </div>
+        </div>
+      </div>
+      <div class="col d-sm-none d-md-block">
+        <div class="card">
+          <img src="{% static 'images/vh2.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Mercedes</h5>
+            <p class="card-text"><strong>Type: </strong> Lorem</p>
+            <p class="card-text"><strong>Marque: </strong> Lorem</p>
+            <p class="card-text"><strong>Km/h:</strong> 20km</p>
+            <p class="card-text"><strong>Prix:</strong> 360£</p>
+          </div>
+        </div>
+      </div>
+      <div class="col d-sm-none d-md-block">
+        <div class="card">
+          <img src="{% static 'images/vh3.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Mercedes</h5>
+            <p class="card-text"><strong>Type: </strong> Lorem</p>
+            <p class="card-text"><strong>Marque: </strong> Lorem</p>
+            <p class="card-text"><strong>Km/h:</strong> 20km</p>
+            <p class="card-text"><strong>Prix:</strong> 360£</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="{% static 'images/vh1.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Mercedes</h5>
+            <p class="card-text"><strong>Type: </strong> Lorem</p>
+            <p class="card-text"><strong>Marque: </strong> Lorem</p>
+            <p class="card-text"><strong>Km/h:</strong> 20km</p>
+            <p class="card-text"><strong>Prix:</strong> 360£</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cc-menu py-5 merriweather">
+  <div class="container">
+     <div class="row">
+       <h3 class="text-center text-light merriweather">Nouveau models</h3>
+       <div class="card bg-transparent text-center mb-4">
+        <div class="card-header redressed fs-4">
+<!--          <ul class="nav nav-tabs justify-content-center card-header-tabs">-->
+<!--            <li class="nav-item">-->
+<!--              <a class="nav-link active" aria-current="true" href="#">Active</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--              <a class="nav-link text-light" href="#">Link</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--              <a class="nav-link text-light" href="#">Disabled</a>-->
+<!--            </li>-->
+<!--          </ul>-->
+        </div>
+        <div class="card-body text-light">
+          <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        </div>
+      </div>
+     </div>
+     
+     <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col">
+        <div class="card">
+          <img src="{% static 'images/vh1.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Mercedes</h5>
+            <p class="card-text"><strong>Type: </strong> Lorem</p>
+            <p class="card-text"><strong>Marque: </strong> Lorem</p>
+            <p class="card-text"><strong>Km/h:</strong> 20km</p>
+            <p class="card-text"><strong>Prix:</strong> 360£</p>
+          </div>
+        </div>
+      </div>
+      <div class="col d-sm-none d-md-block">
+        <div class="card">
+          <img src="{% static 'images/vh2.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Mercedes</h5>
+            <p class="card-text"><strong>Type: </strong> Lorem</p>
+            <p class="card-text"><strong>Marque: </strong> Lorem</p>
+            <p class="card-text"><strong>Km/h:</strong> 20km</p>
+            <p class="card-text"><strong>Prix:</strong> 360£</p>
+          </div>
+        </div>
+      </div>
+      <div class="col d-sm-none d-md-block">
+        <div class="card">
+          <img src="{% static 'images/vh3.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Mercedes</h5>
+            <p class="card-text"><strong>Type: </strong> Lorem</p>
+            <p class="card-text"><strong>Marque: </strong> Lorem</p>
+            <p class="card-text"><strong>Km/h:</strong> 20km</p>
+            <p class="card-text"><strong>Prix:</strong> 360£</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="{% static 'images/vh1.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Mercedes</h5>
+            <p class="card-text"><strong>Type: </strong> Lorem</p>
+            <p class="card-text"><strong>Marque: </strong> Lorem</p>
+            <p class="card-text"><strong>Km/h:</strong> 20km</p>
+            <p class="card-text"><strong>Prix:</strong> 360£</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cc-menu py-5 merriweather">
+  <div class="container">
+     <div class="row">
+       <h3 class="text-center text-light merriweather" id="bg">Nouveau models</h3>
+       <div class="card bg-transparent text-center mb-4">
+        <div class="card-header redressed fs-4">
+<!--          <ul class="nav nav-tabs justify-content-center card-header-tabs">-->
+<!--            <li class="nav-item">-->
+<!--              <a class="nav-link active" aria-current="true" href="#">Active</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--              <a class="nav-link text-light" href="#">Link</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--              <a class="nav-link text-light" href="#">Disabled</a>-->
+<!--            </li>-->
+<!--          </ul>-->
+        </div>
+        <div class="card-body text-light">
+          <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        </div>
+      </div>
+     </div>
+     
+     <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col">
+        <div class="card">
+          <img src="{% static 'images/vh1.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Mercedes</h5>
+            <p class="card-text"><strong>Type: </strong> Lorem</p>
+            <p class="card-text"><strong>Marque: </strong> Lorem</p>
+            <p class="card-text"><strong>Km/h:</strong> 20km</p>
+            <p class="card-text"><strong>Prix:</strong> 360£</p>
+          </div>
+        </div>
+      </div>
+      <div class="col d-sm-none d-md-block">
+        <div class="card">
+          <img src="{% static 'images/vh2.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Mercedes</h5>
+            <p class="card-text"><strong>Type: </strong> Lorem</p>
+            <p class="card-text"><strong>Marque: </strong> Lorem</p>
+            <p class="card-text"><strong>Km/h:</strong> 20km</p>
+            <p class="card-text"><strong>Prix:</strong> 360£</p>
+          </div>
+        </div>
+      </div>
+      <div class="col d-sm-none d-md-block">
+        <div class="card">
+          <img src="{% static 'images/vh3.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Mercedes</h5>
+            <p class="card-text"><strong>Type: </strong> Lorem</p>
+            <p class="card-text"><strong>Marque: </strong> Lorem</p>
+            <p class="card-text"><strong>Km/h:</strong> 20km</p>
+            <p class="card-text"><strong>Prix:</strong> 360£</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="{% static 'images/vh1.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Mercedes</h5>
+            <p class="card-text"><strong>Type: </strong> Lorem</p>
+            <p class="card-text"><strong>Marque: </strong> Lorem</p>
+            <p class="card-text"><strong>Km/h:</strong> 20km</p>
+            <p class="card-text"><strong>Prix:</strong> 360£</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cc-carousel merriweather bg-dark text-light text-center py-5">
+  <div class="container">
+    <div class="row">
+      <h1 class="text-uppercase"> Aimez vous faire des vancance avec votre famille?</h1>
+      <div class="col pb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+         Incidunt maxime facere aut suscipit,
+         tenetur, perspiciatis velit aliquam dicta aperiam quasi quia soluta dolorum commodi fuga!
+          Debitis temporibus sit sed quae.
+      </div>
+    </div>
+    
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{% static 'images/vh4.jpg' %}" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'images/vh5.jpg' %}" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'images/vh6.jpg' %}" class="d-block w-100" alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!--<section class="order-form py-5">-->
+<!--  <div class="container">-->
+<!--    <h2 class="merriweather text-center text-light mb-4">Passer une commande</h2>-->
+<!--    <form action="">-->
+<!--      <div class="row">-->
+<!--        <div class="col-md-6 col-sm">-->
+<!--          <div class="input-group mb-3">-->
+<!--            <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>-->
+<!--            <input type="text" class="form-control" placeholder="Votre nom" />-->
+<!--          </div>-->
+<!--          <div class="input-group mb-3">-->
+<!--            <label class="input-group-text" for="inputGroupSelect01"><i class="fas fa-utesils"></i></label>-->
+<!--            <select class="form-select" id="inputGroupSelect01">-->
+<!--                <option selected>Choisir un menu</option>-->
+<!--                <option value="1">One</option>-->
+<!--                <option value="2">Two</option>-->
+<!--                <option value="3">Three</option>-->
+<!--            </select>-->
+<!--          </div> -->
+<!--          <div class="input-group mb-3">-->
+<!--            <label class="input-group-text" for="inputGroupSelect01"><i class="fas fa-sort-numeric-up-alt"></i></label>-->
+<!--            <select class="form-select" id="inputGroupSelect01">-->
+<!--                <option selected>Nombre de personne</option>-->
+<!--                <option value="1">One</option>-->
+<!--                <option value="2">Two</option>-->
+<!--                <option value="3">Three</option>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-6 col-sm">-->
+<!--          <div class="input-group mb-3">-->
+<!--            <input type="email" class="form-control" placeholder="Votre email" />-->
+<!--            <span class="input-group-text" id="basic-addon1"><i class="fas fa-at"></i></span>-->
+<!--          </div>-->
+<!--          <div class="input-group mb-3">-->
+<!--            <input type="number" class="form-control" placeholder="Numéro de téléphone" />-->
+<!--            <span class="input-group-text" id="basic-addon1"><i class="fas fa-phone"></i></span>-->
+<!--          </div>-->
+<!--          <div class="input-group mb-3">-->
+<!--            <input type="text" class="form-control" placeholder="Adresse Zone Ex: Yopougon 54" />-->
+<!--            <span class="input-group-text" id="basic-addon1"><i class="fas fa-home"></i></span>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div> -->
+<!--      <div class="row">-->
+<!--        <div class="input-group mb-3">-->
+<!--          <span class="input-group-text" id="basic-addon1">Préciser le nombre de personnes</span>-->
+<!--          <input type="text" class="form-control" placeholder="Ex: . 25 " />-->
+<!--        </div>-->
+<!--        <div class="input-group">-->
+<!--          <span class="input-group-text">Autre informations</span>-->
+<!--          <textarea class="form-control" aria-label="With textarea"></textarea>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </form>-->
+<!--  </div>-->
+<!--</section>-->
+<br>
+<br>
+{% include 'base/footer.html' %}  
+{% endblock %}

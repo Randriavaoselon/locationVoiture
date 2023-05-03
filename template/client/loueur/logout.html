@@ -1,0 +1,30 @@
+{% extends "client/loueur/layouts/base.html" %}
+{% block title %} Logout {% endblock title%}
+{% load static %}
+{% block content %}
+
+<style>
+     body{
+         font-family: 'Poppin', sans-serif;
+         background-image: url('../../static/images/fondLogout.png');
+         background-attachment: fixed;
+      }
+</style>
+
+{% include 'client/loueur/includes/sidenav.html' %}
+
+<div class="main-content" id="panel">
+    {% include "client/loueur/includes/navigationLogout.html" %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body" style=" margin-top: 0rem;">
+        <h5 class="card-title">Vous etes déja déconnecter</h5>
+        <p class="card-text">
+            On vous remercie pour votre temps, pour revenir à l'acceuil veuillez cliquer le bouton en bas.
+        </p>
+        <br><hr><a href="{% url 'users-home' %}" class="btn btn-primary">Revenir à l'acceuil</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

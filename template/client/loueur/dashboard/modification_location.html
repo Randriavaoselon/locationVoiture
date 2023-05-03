@@ -1,0 +1,408 @@
+{% extends "client/loueur/layouts/base.html" %}
+{% block title %} Compte principale de {{user.first_name}} {% endblock title%}
+
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+
+<style>
+    /*bootstrap VS:5*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+
+/* style formulaire */
+
+.page{
+        display: none;
+      }
+
+      .card-header{
+        display: flex;
+        justify-content: space-between;
+      }
+      .page-num{
+        border: 1px solid blue;
+        border-radius: 100%;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        padding: 10px;
+      }
+      .active{
+        color: white;
+        background-color: blue;
+      }
+/* fin style formulaire*/
+
+body{
+    background-color: #272727;
+}
+
+.progresse{
+    color: white;
+}
+
+*{
+font-family: 'Montserrat', sans-serif;
+}
+
+.redressed {
+font-family: Arial, Helvetica, sans-serif, cursive ;
+}
+
+.merriweather {
+font-family: Arial, Helvetica, sans-serif, serif;
+}
+
+.cc-navbar {
+background-color: rgba(0, 0, 0, 0.55);
+font-family: Arial, Helvetica, sans-serif;
+box-shadow: 1px 1px 3px rgba(255, 255, 255, 0.54);
+z-index: 99;
+}
+
+.cc-navbar .nav-link {
+border-bottom: 1px solid transparent;
+transition: padding-bottom .4s ease-in-out, border-color .3s ease;
+}
+
+.cc-navbar .nav-link:hover{
+padding-bottom: 20px;
+border-bottom-color: var(--bs-teal);
+}
+
+.banner,
+.order-form {
+background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('../../static/images/fond.jpg') center center fixed no-repeat;
+background-size: cover;
+height: 800px;
+}
+
+.order-form {
+height: 500px;
+}
+
+.banner .banner-desc {
+font-size: 48px;
+font-weight: 400;
+color: #fff;
+}
+
+.cc-menu {
+background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('../../static/images/fond3_fin.jpg') center center fixed no-repeat;
+background-size: cover;
+height: 1200px;
+}
+
+.btn-order {
+color: var(--bs-teal);
+border-color: var(--bs-teal);
+transition: 0.5s;
+}
+.btn-order:hover,
+.btn-order:active {
+color: #fff;
+background-color: var(--bs-teal);
+}
+
+/* style footer */
+.footer-content{
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+text-align: center;
+}
+.footer-content h3{
+font-size: 2.1rem;
+font-weight: 500;
+text-transform: capitalize;
+line-height: 3rem;
+}
+.footer-content p{
+max-width: 500px;
+margin: 10px auto;
+line-height: 28px;
+font-size: 14px;
+color: #cacdd2;
+}
+.socials{
+list-style: none;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 1rem 0 3rem 0;
+}
+.socials li{
+margin: 0 10px;
+}
+.socials a{
+text-decoration: none;
+color: #fff;
+border: 1.1px solid white;
+padding: 5px;
+
+border-radius: 50%;
+
+}
+.socials a i{
+font-size: 1.1rem;
+width: 20px;
+
+
+transition: color .4s ease;
+
+}
+.socials a:hover i{
+color: aqua;
+}
+
+.footer-bottom{
+text-align: center;
+}
+
+.footer-bottom p{
+float: left;
+font-size: 14px;
+word-spacing: 2px;
+text-transform: capitalize;
+}
+.footer-bottom p a{
+color:#44bae8;
+font-size: 16px;
+text-decoration: none;
+}
+.footer-bottom span{
+text-transform: uppercase;
+opacity: .4;
+font-weight: 200;
+}
+.footer-menu{
+float: right;
+
+}
+.footer-menu ul{
+display: flex;
+}
+.footer-menu ul li{
+padding-right: 10px;
+display: block;
+}
+.footer-menu ul li a{
+color: #cfd2d6;
+text-decoration: none;
+}
+.footer-menu ul li a:hover{
+color: #27bcda;
+}
+
+@media (max-width:500px) {
+.footer-menu ul{
+display: flex;
+margin-top: 10px;
+margin-bottom: 20px;
+}
+}
+</style>
+
+{% include 'client/loueur/includes/sidenav.html' %}
+
+
+<div class="main-content" id="panel">
+    {% include "client/loueur/includes/navigation.html" %}
+
+    <div class="container-fuild" style="margin-top: 30px;">
+        <div class="row">
+          <div class="col-md-10 offset-md-1">
+             <div class="card" style="border-color: blue;">
+                <div class="card-header" style="background-color: rgb(186, 182, 182);">
+    
+                 </div>
+                 <div class="card-body" style="background-color: #e9ecef;">
+                    <form action="{% url 'edite_loc' loc_modi.id %}" method="POST" url="/upload-picture" enctype="multipart/form-data" role="form">
+                        {% csrf_token %}
+                        <div class="page" id="page1">
+                            <div class="row">
+                                
+                               <div class="col-md-6">
+                                   <div class="form-group">
+                                      <label for="nomclient">Nom de client</label>
+                                      <input type="text" class="form-control bg-white" name="" value="{{ loc_modi.nom_Client }}" id="nomclient" readonly>
+                                   </div>
+                                </div>
+   
+                                <div class="col-md-6">
+                                   <div class="form-group">
+                                      <label for="type_loc">Type de location</label>
+                                      <input type="text" class="form-control" name="type_loc" value="{{ loc_modi.type_loc }}" id="type_loc" required="">
+                                   </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="dt_demande">Date de demande</label>
+                                       <input type="date" class="form-control" name="dt_demande" value="{{ loc_modi.dt_demande|date:'Y-m-d' }}" id="dt_demande">
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="desti">Déstination:</label>
+                                       <input type="text" class="form-control" name="destination" value="{{ loc_modi.destination }}" id="desti" required="">
+                                       <span id="available"></span>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                            <a class="btn btn-success" style="border-radius: 30px;" href="{% url 'home_loueur' %}">Quitter</a>
+                            <button class="next btn-primary" style="height: 40px; width: 100px; text-align: center; border-radius: 30px;" type="button">Suivant</button>
+                        </div>
+    
+                        <div class="page" id="page2">
+                            <div class="row">
+                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="autre_cond">Avoir autre conducteur</label>
+                                       <input type="text" class="form-control" name="autre_cond" value="{{ loc_modi.autre_cond }}" id="autre_cond" required="">
+                                    </div>
+                                 </div>
+    
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="autre_cond">Nom d'autre conducteur</label>
+                                       <input type="text" class="form-control" name="nom_autre" value="{{ loc_modi.nom_autre }}" id="autre_cond" required="">
+                                    </div>
+                                 </div>
+    
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="autre_email">Email d'autre conducteur</label>
+                                       <input type="text" class="form-control" name="email_autre" value="{{ loc_modi.email_autre }}" id="autre_email" required="">
+    
+                                    </div>
+                                 </div>
+    
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="cin_autre">Cin d'autre conducteur</label>
+                                       <input type="number" class="form-control" name="cin_autre" value="{{ loc_modi.cin_autre }}" id="cin_autre" required="">
+    
+                                    </div>
+                                 </div>
+    
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="autre_permis">Permis de conduire</label>
+                                       <input type="number" class="form-control" name="permis_autre" value="{{ loc_modi.permis_autre }}" id="autre_permis" required="">
+    
+                                    </div>
+                                 </div>
+    
+                                 <div class="col-md-6">
+                                     <div class="form-group">
+                                        <label for="autre_adresse">Adresse d'autre conducteur</label>
+                                        <input type="text" class="form-control" name="adresse_autre" value="{{ loc_modi.adresse_autre }}" id="autre_adresse" required="">
+                                        <span id="available"></span>
+                                     </div>
+                                 </div>
+                              
+                            </div>
+                              
+                              <button class="prev" style="background-color: gray; color:#e9ecef; height: 40px; width: 100px; text-align: center; border-radius: 30px;" type="button">Précedent</button>
+                              <input type="submit" class="btn-primary" id="btns" style="height: 40px; width: 100px; text-align: center; border-radius: 30px;"/>
+                        </div>
+                    </form>
+                 </div>
+             </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+{% block javascripts %}
+<script>
+    //on va chercher les differents élements de notre page
+    const pages = document.querySelectorAll(".page")
+      const header = document.querySelector(".card-header")
+      const nbPages = pages.length //nombre des pages du formulaire
+
+      let pageActive = 1
+
+      //on attend le chargement de la page
+      window.onload = () =>{
+        //on affiche la 1er page du formulaire
+        document.querySelector(".page").style.display = "initial"
+
+        //afficher les numéro de page dans l'entete
+        //on parcours la liste des pages
+        pages.forEach((page, index) =>  {
+          //on crée l'élement "numero de page"
+          let element = document.createElement("div")
+          element.classList.add("page-num")
+          element.id = "num" + (index + 1)
+          if(pageActive === index + 1){
+            element.classList.add("active")
+          }
+          element.innerHTML = index + 1
+          header.appendChild(element)
+
+        })
+
+        //On gere les bouton "suivant"
+        let boutons = document.querySelectorAll(".next")
+        for(let bouton of boutons){
+          bouton.addEventListener("click", pageSuivante)
+        }
+
+        //On gere les bouton "precedente"
+        boutons = document.querySelectorAll(".prev")
+        for(let bouton of boutons){
+          bouton.addEventListener("click", pagePrecedente)
+        }
+      }
+      /*
+        Cette fonction fait avancer le formulaire d'une page
+      */
+     function pageSuivante(){
+     
+      //on masque toute les pages
+      for(let page of pages){
+        page.style.display = "none"
+      }
+
+      //on affiche la page suivante
+      this.parentElement.nextElementSibling.style.display = "initial"
+
+      //on "desactive" tous la pages active 
+      document.querySelector(".active").classList.remove("active")
+      
+       //on incremente page active
+       pageActive++
+      
+       //on active le nouveau numéro
+       document.querySelector("#num"+pageActive).classList.add("active")
+     }
+
+     /*
+        Cette fonction fait reculer le formulaire d'une page
+      */
+      function pagePrecedente(){
+     
+     //on masque toute les pages
+     for(let page of pages){
+       page.style.display = "none"
+     }
+
+     //on affiche la page suivante
+     this.parentElement.previousElementSibling.style.display = "initial"
+
+     //on "desactive" tous la pages active 
+     document.querySelector(".active").classList.remove("active")
+     
+      //on incremente page active
+      pageActive--
+     
+      //on active le nouveau numéro
+      document.querySelector("#num"+pageActive).classList.add("active")
+    }
+</script>
+{% endblock javascripts %}

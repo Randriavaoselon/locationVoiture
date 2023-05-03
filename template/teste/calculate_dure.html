@@ -1,0 +1,156 @@
+<html>
+<head>
+<title>ajax example</title>
+<!-- <link rel="stylesheet" href="bootstrap.css" crossorigin="anonymous"> -->
+<link rel="stylesheet" href="../../static/css/bootstrap.css" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="bootstrap-theme.css" crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="bootstrap-theme.css" crossorigin="anonymous"> -->
+<style>
+.container{
+    width:70%;
+    height:30%;
+    padding:20px;
+}
+</style>
+</head>
+<body>
+  <form action="">  
+    <div class="container">
+        <h3 align="center">Calculate Javascript Difference between Two Dates in Days</h3>
+        <br/><br/><br/>
+          <div class="form-group row">
+                <label class="control-label col-sm-2">Start Date:</label>
+                <div class="col-sm-2">
+                  <input type="date" id="start_date">
+                </div>
+                <label class="control-label col-sm-2">End Date:</label>
+                <div class="col-sm-2">
+                     <input type="date" id="end_date" onchange="getDays()">
+                </div>
+                <label class="control-label col-sm-2">Days:</label>
+                <div class="col-sm-2">
+                  <input type="text" id="days">
+                </div>
+                <label class="control-label col-sm-2">Prix:</label>
+                <div class="col-sm-2">
+                  <input type="number" value="50" id="prix">
+                </div>
+                <label><b>Total Amount</b></label>
+                <input class="w3-input w3-border" name="tot_amount" id="total" type="text" readonly>  
+          </div>
+        <br/><br>
+     
+    </form>
+    <hr>
+    <br><br><br><br>
+   
+    </div>
+
+    Pick Up Date: <input type="date" id="pick_up" ><br/>
+    Drop Off Date:   <input type="date" id="drop_off"><br/>
+    Price <span id='price'>50</price><br/>
+    <button onclick="cal()">Calculate</button><br/>
+    Total Value <span id='value'></span>
+
+    <h1>How to Auto Calculate Price in Javascript</h1>
+    <form name="frm-pin" method="post" action="pin-index-a.php">
+        <input type="hidden" name="mode" value="PinRequest" />
+        <label class="w3-text-green"><b>Number Of Pin</b></label>
+        <select name="tot_pin_requested" onchange="calculateAmount(this.value)" required>
+			<option value="" disabled selected>Choose your option</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+		</select>
+        <label><b>Total Amount</b></label>
+        <input class="w3-input w3-border" name="tot_amount" id="tot_amount" type="text" readonly>
+    </form>
+
+    <br><br><br>
+  
+    <form>
+        <div class="container">
+        <div class="mb-3">
+            <label for="inputProductPrice" class="form-label">Product Price</label>
+            <input type="text" class="form-control" id="inputProductPrice" oninput="myFunction()" >
+        </div>
+        <div class="mb-3">
+            <label for="inputGST" class="form-label">GST</label>
+            <input type="number" class="form-control" id="inputGST" oninput="myFunction()">
+        </div>
+        <div class="mb-3">
+            <label for="inputDelivery" class="form-label">Delivery Charge</label>
+            <input type="number" class="form-control" id="inputDelivery" oninput="myFunction()">
+        </div>
+        <hr>
+    
+    
+        <!-- <h4>Total Price: <span id="totalPrice">0</span></h4> -->
+        <h4>Total Price: <input type="text" id="totalPrice"></h4>
+     </div> 
+    </form>
+
+<!-- <script src="jquery-3.2.1.min.js"></script>    
+<script src="bootstrap.min.js"></script> -->
+<script src="../../static/js/jquery.min.js"></script>
+<script src="../../static/js/bootstrap.min.js"></script>
+<script>
+ 
+//get the days between two dates
+ 
+  function getDays(){
+ 
+    var start_date = new Date(document.getElementById('start_date').value);
+    var end_date = new Date(document.getElementById('end_date').value);
+    var prix = document.getElementById('prix').value;
+    //Here we will use getTime() function to get the time difference
+    var time_difference = end_date.getTime() - start_date.getTime();
+
+    //Here we will divide the above time difference by the no of miliseconds in a day
+    var days_difference = time_difference / (1000*3600*24);
+    var total = days_difference * prix;
+    //alert(days);
+    document.getElementById('days').value = days_difference;
+    document.getElementById('total').value = total;
+  }
+</script>
+<script>
+    function GetDays()
+    {
+    var dropdt = document.getElementById("drop_off").valueAsDate;
+    var pickdt = document.getElementById("pick_up").valueAsDate;
+    return parseInt((dropdt - pickdt) / (24 * 3600 * 1000));
+    }
+
+    function cal()
+    {
+    document.getElementById('value').innerHTML=GetDays()*parseInt(document.getElementById('price').innerHTML);
+    }
+</script>
+<script>
+    function calculateAmount(val) {
+        var tot_price = val * 100;
+        /*display the result*/
+        var divobj = document.getElementById('tot_amount');
+        divobj.value = tot_price;
+    }
+</script>
+<script>
+    function myFunction() {
+        var price = document.getElementById("inputProductPrice").value;
+        var gst = document.getElementById("inputGST").value;
+        var delivery = document.getElementById("inputDelivery").value;
+        var total = +price * gst * delivery;
+        document.getElementById("totalPrice").value = total;       
+    }
+</script>
+</body>
+</html>

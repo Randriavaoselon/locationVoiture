@@ -1,0 +1,85 @@
+<div class='conlabel'>Have you started trading yet?</div>
+      <table width="100">
+              <tr>
+                <td><label>
+                  <input type="radio" name="example" value="Yes" id="example_0" required />
+                  Yes</label></td>
+          </tr>
+          <tr>
+            <td><label>
+              <input type="radio" name="example" value="No" id="example_1" required />
+              No</label></td>
+          </tr>
+  </table>
+  <li>
+      <div class='conlabel'>If Yes, then:</div>
+          <input type="text" id="field1" name="field1" placeholder="" readonly />
+  </li><br>
+  <li>
+      <div class='conlabel'>If No, then:</div>
+          <input type="text" id="field2" name="field2" placeholder="" readonly />
+  </li><br>
+
+  <!-- Javascript -->
+
+<script>
+        $(function(){
+        $("#example_0, #example_1").change(function(){
+            $("#field1, #field2").val("").attr("readonly",true);
+            if($("#example_0").is(":checked")){
+                $("#field1").removeAttr("readonly");
+                $("#field1").focus();
+            }
+            else if($("#example_1").is(":checked")){
+                $("#field2").removeAttr("readonly");
+                $("#field2").focus();   
+            }
+        });
+    });
+   
+</script>
+<!--Autre methode -->
+<!-- En tete de la page html -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>  
+<script type="text/javascript">
+$(document).ready(function () {
+
+function checkradiobox(){
+    var radio = $("input[name='example']:checked").val();
+    $('#field1, #field2').attr('disabled',true);
+    if(radio == "Yes"){
+        $('#field1').attr('disabled',false);
+        $("#field1").focus();
+    }else if(radio == "No"){
+        $('#field2').attr('disabled',false);
+        $("#field2").focus();
+    }
+}
+
+$("#example_0, #example_1").change(function () {
+    checkradiobox();
+});
+
+checkradiobox();
+
+}); 
+</script>
+<!--Autre methode -->
+<script type="text/javascript">
+    $(function () {
+        //First add disabled properties to inputs
+        $("input:text").prop('disabled', true);
+
+        //Yes Input
+        $("#example_0").on("click", function () {
+            $("#input1").prop('disabled', false);
+            $("#input2").prop('disabled', true);
+        });
+
+        //No Input
+        $("#example_1").on("click", function () {
+            $("#input2").prop('disabled', false);
+            $("#input1").prop('disabled', true);
+        });
+    });
+</script>

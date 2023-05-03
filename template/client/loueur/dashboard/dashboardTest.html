@@ -1,0 +1,647 @@
+{% extends "client/loueur/layouts/base.html" %}
+{% block title %} Compte principale de {{user.first_name}} {% endblock title%}
+
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+
+<style>
+    /*bootstrap VS:5*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+.progresse{
+    color: white;
+}
+
+*{
+font-family: 'Montserrat', sans-serif;
+}
+
+.redressed {
+font-family: Arial, Helvetica, sans-serif, cursive ;
+}
+
+.merriweather {
+font-family: Arial, Helvetica, sans-serif, serif;
+}
+
+.cc-navbar {
+background-color: rgba(0, 0, 0, 0.55);
+font-family: Arial, Helvetica, sans-serif;
+box-shadow: 1px 1px 3px rgba(255, 255, 255, 0.54);
+z-index: 99;
+}
+
+.cc-navbar .nav-link {
+border-bottom: 1px solid transparent;
+transition: padding-bottom .4s ease-in-out, border-color .3s ease;
+}
+
+.cc-navbar .nav-link:hover{
+padding-bottom: 20px;
+border-bottom-color: var(--bs-teal);
+}
+
+.banner,
+.order-form {
+background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('../../static/images/fond.jpg') center center fixed no-repeat;
+background-size: cover;
+height: 800px;
+}
+
+.order-form {
+height: 500px;
+}
+
+.banner .banner-desc {
+font-size: 48px;
+font-weight: 400;
+color: #fff;
+}
+
+.cc-menu {
+background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('../../static/images/fond3_fin.jpg') center center fixed no-repeat;
+background-size: cover;
+height: 1200px;
+}
+
+.btn-order {
+color: var(--bs-teal);
+border-color: var(--bs-teal);
+transition: 0.5s;
+}
+.btn-order:hover,
+.btn-order:active {
+color: #fff;
+background-color: var(--bs-teal);
+}
+
+/* style footer */
+.footer-content{
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+text-align: center;
+}
+.footer-content h3{
+font-size: 2.1rem;
+font-weight: 500;
+text-transform: capitalize;
+line-height: 3rem;
+}
+.footer-content p{
+max-width: 500px;
+margin: 10px auto;
+line-height: 28px;
+font-size: 14px;
+color: #cacdd2;
+}
+.socials{
+list-style: none;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 1rem 0 3rem 0;
+}
+.socials li{
+margin: 0 10px;
+}
+.socials a{
+text-decoration: none;
+color: #fff;
+border: 1.1px solid white;
+padding: 5px;
+
+border-radius: 50%;
+
+}
+.socials a i{
+font-size: 1.1rem;
+width: 20px;
+
+
+transition: color .4s ease;
+
+}
+.socials a:hover i{
+color: aqua;
+}
+
+.footer-bottom{
+text-align: center;
+}
+
+.footer-bottom p{
+float: left;
+font-size: 14px;
+word-spacing: 2px;
+text-transform: capitalize;
+}
+.footer-bottom p a{
+color:#44bae8;
+font-size: 16px;
+text-decoration: none;
+}
+.footer-bottom span{
+text-transform: uppercase;
+opacity: .4;
+font-weight: 200;
+}
+.footer-menu{
+float: right;
+
+}
+.footer-menu ul{
+display: flex;
+}
+.footer-menu ul li{
+padding-right: 10px;
+display: block;
+}
+.footer-menu ul li a{
+color: #cfd2d6;
+text-decoration: none;
+}
+.footer-menu ul li a:hover{
+color: #27bcda;
+}
+
+@media (max-width:500px) {
+.footer-menu ul{
+display: flex;
+margin-top: 10px;
+margin-bottom: 20px;
+}
+}
+</style>
+
+{% include 'client/loueur/includes/sidenav.html' %}
+
+
+<div class="main-content" id="panel">
+    {% include "client/loueur/includes/navigation.html" %}
+
+    <!-- Header -->
+    <div class="header bg-primary pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        
+                    </div>
+                    <div class="col-lg-6 col-5 text-right">
+                        <button type="button" class="btn btn-sm btn-neutral" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Nouveau Agence</button>
+                        <button type="button" class="btn btn-sm btn-neutral" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@getbootstrap">Nouveau Véhicule</button>
+                    </div>
+                </div>
+
+                 <!-- Modal form agence -->
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Nouveau agence</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <form action="" method="POST">
+                            {% csrf_token %}
+                          <div class="row">
+                            <div class="col-md-6">
+                             <div class="form-group">
+                              <label for="recipient-name" class="col-form-label">Nom de l'agence:</label>
+                              <input type="text" class="form-control" name="nom_agence" id="recipient-name">
+                            </div>
+                            </div>
+
+                            <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="recipient-adresse" class="col-form-label">Adresse:</label>
+                              <input type="text" class="form-control" name="adresse_agence" id="recipient-adresse">
+                            </div>
+                            </div>
+
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="recipient-phone" class="col-form-label">Phone:</label>
+                                <input type="number" class="form-control" name="tel_agence" id="recipient-phone">
+                            </div>
+                            </div>
+
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="recipient-email" class="col-form-label">Email:</label>
+                                <input type="email" class="form-control" name="email_agence" id="recipient-email">
+                            </div>
+                            </div>
+
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="recipient-fax" class="col-form-label">Fax:</label>
+                                <input type="text" class="form-control" name="fax_agence" id="recipient-fax">
+                            </div>
+                            </div>
+
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="recipient-fax" class="col-form-label">Nom d'utilisateur:</label>
+                                <select class="form-control" name="username" id="recipient-fax">
+                                    <option value="">Sélectionner un nom...</option>
+                                   {% for loueur in loueurUser %} 
+                                    <option value="{{loueur.id}}">{{loueur.username}}</option>
+                                   {% endfor %} 
+                                </select>
+                            </div>
+                            </div>    
+                          </div>  
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Valider</button>
+                          </div> 
+                          </form>
+                        </div>
+                        
+                      </div>
+                    </div>
+                </div>
+                
+                <!-- Modal form Vehicule -->
+
+                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Nouveau Véhicule</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="" method="POST">
+                          {% csrf_token %}
+                        <div class="row">
+                          <div class="col-md-6">
+                           <div class="form-group">
+                            <label for="recipient-num_serie" class="col-form-label">Numéro de série:</label>
+                            <input type="number" class="form-control" name="numSerie" id="recipient-num_serie">
+                          </div>
+                          </div>
+
+                          <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="recipient-immat" class="col-form-label">Numéro Immatricule:</label>
+                            <input type="text" class="form-control" name="numImm" id="recipient-immat">
+                          </div>
+                          </div>
+
+                          <div class="col-md-6">
+                          <div class="form-group">
+                              <label for="recipient-date" class="col-form-label">Date mise en circuit:</label>
+                              <input type="date" class="form-control" name="dateMiseEnCirc" id="recipient-date">
+                          </div>
+                          </div>
+ 
+                          <div class="col-md-6">
+                          <div class="form-group">
+                              <label for="recipient-dt_km" class="col-form-label">Date prise en km:</label>
+                              <input type="date" class="form-control" name="datePriseKm" id="recipient-dt_km">
+                          </div>
+                          </div>
+
+                          <div class="col-md-6">
+                          <div class="form-group">
+                              <label for="recipient-km" class="col-form-label">Kilometre:</label>
+                              <input type="text" class="form-control" name="kilometre" id="recipient-km">
+                          </div>
+                          </div>
+
+                          <div class="col-md-6">
+                          <div class="form-group">
+                              <label for="recipient-fax" class="col-form-label">Nom d'utilisateur:</label>
+                              <select class="form-control" name="" id="recipient-fax">
+                                  <option value="">Indiquer vore nom...</option>
+                                 {% for loueur in loueurUser %} 
+                                  <option value="{{loueur.id}}">{{loueur.username}}</option>
+                                 {% endfor %} 
+                              </select>
+                          </div>
+                          </div>    
+                        </div>  
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Valider</button>
+                        </div> 
+                        </form>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Widget 1 -->
+                <div class="row">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Votre solde</h5>
+                                        <span class="h2 font-weight-bold mb-0">${{ totalPay|default:0 }}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                            <i class="ni ni-active-40"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-nowrap">
+                                     Solde actuellement
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Widget 2 -->
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Total Location</h5>
+                                        <span class="h2 font-weight-bold mb-0">{{ nbLocation|default:0 }}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-pie-35"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-nowrap">
+                                        Nombre demande de location
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Widget 3 -->
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Total réservation</h5>
+                                        <span class="h2 font-weight-bold mb-0">{{ nbrReservation|default:0 }}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                            <i class="ni ni-money-coins"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                <span class="text-nowrap">
+                                Nombre total de réservation
+                                </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Widget 4 -->
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Solde Max:</h5>
+                                        <span class="h2 font-weight-bold mb-0">${{ maxPay|default:0 }}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-bar-32"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-nowrap">
+                                      Votre solde maximale
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt--6">
+
+        <div class="row">
+          <div class="col-md" style="background-color: #0D0E11;">
+              <br>
+              <h1 class="progresse">Facture:</h1>
+              <!-- <canvas id="facture_mensiel" width="250" height="200"></canvas> -->
+          </div>
+          <div class="col-md" style="background-color: #0D0E11;">
+              <br>
+              <h1 class="progresse">Dépense:</h1>
+              <!-- <canvas id="depense_mensiel" width="250" height="200"></canvas> -->
+          </div>
+     
+      </div>
+      
+      <div class="row">
+          <div class="col-md" style="background-color: #0D0E11;">
+              <br>
+              <h1 class="progresse">Produit de vendeur</h1>
+              <!-- <canvas id="produit_vendeur" width="250" height="200"></canvas> -->
+          </div>
+          <div class="col-md" style="background-color: #0D0E11;">
+              <br>
+              <h1 class="progresse">Funcinarios do mes</h1>
+              <!-- <canvas id="funcinarios_do_mes" width="250" height="200"></canvas> -->
+          </div>
+      </div>
+    
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="card">
+              <div class="card-header border-0">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h3 class="mb-0">Demande location</h3>
+                  </div>
+                  <div class="col text-right">
+                    <a href="#!" class="btn btn-sm btn-primary">Add Order</a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                     <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nom clients</th>
+                            <th scope="col">Type location</th>
+                            <th scope="col">Date demande</th>
+                            <th scope="col">Durée</th>
+                            <th scope="col">Déstination</th>
+                            <th scope="col">Motifs</th>
+                            <th scope="col">Debut location</th>
+                            <th scope="col">Fin location</th>
+                            <th scope="col">Avoir autre conducteur</th>
+                            <th scope="col">Son Nom</th>
+                            <th scope="col">Son Email</th>
+                            <th scope="col">Son CIN</th>
+                            <th scope="col">Son Permis</th>
+                            <th scope="col">Son Adresse</th> 
+                            <th scope="col">Actions</th> 
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for locationList in locationList %}
+                           <tr>
+                                    <th scope="row"><a href="">{{ locationList.id }}</a></th>
+                                    <th scope="row">{{ locationList.nom_Client }}</th>
+                                    <th scope="row">{{ locationList.type_loc }}</th>
+                                    <th scope="row">{{ locationList.dt_demande| date:"d/m/Y"}}</th>
+                                    <th scope="row">{{ locationList.dure }}</th>
+                                    <th scope="row">{{ locationList.destination }}</th>
+                                    <th scope="row">{{ locationList.motif }}</th>
+                                    <th scope="row">{{ locationList.dt_debut| date:"d/m/Y"}}</th>
+                                    <th scope="row">{{ locationList.dt_fin| date:"d/m/Y"}}</th>
+                                    <th scope="row">{{ locationList.autre_cond }}</a></th>
+                                    <th scope="row">{{ locationList.nom_autre }}</th>
+                                    <th scope="row">{{ locationList.email_autre }}</th>
+                                    <th scope="row">{{ locationList.cin_autre }}</th>
+                                    <th scope="row">{{ locationList.permis_autre }}</th>
+                                    <th scope="row">{{ locationList.adresse_autre }}</th>
+                                
+                                    <th scope="row">
+                                        <a class="btn btn-sm btn-warning" href=""> <span class="fa fa-edit"></span> Modifier</a>
+                                        <a class="btn btn-sm btn-danger" href=""><span class="fa fa-trash"></span> Suprimer</a>
+                                    </th>
+                           </tr>
+                        {% endfor %}
+                     </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>  
+  
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="card">
+              <div class="card-header border-0">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h3 class="mb-0">Réservation</h3>
+                  </div>
+                  <div class="col text-right">
+                    <a href="#!" class="btn btn-sm btn-primary">Add Order</a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                     <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Type véhicule</th>
+                            <th scope="col">Marque véhicule</th>
+                            <th scope="col">Kilometrage</th>
+                            <th scope="col">Type prix</th>
+                            <th scope="col">Montants</th>
+                            <th scope="col">Numéro location</th>
+                            <th scope="col">Actions</th> 
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for reservation in reservation %}
+                           <tr>
+                                    <th scope="row"><a href="">{{ reservation.id }}</a></th>
+                                    <th scope="row">{{ reservation.type_vehicule }}</th>
+                                    <th scope="row">{{ reservation.marque_vehicule }}</th>
+                                    <th scope="row">{{ reservation.kilometrage }}</th>
+                                    <th scope="row">{{ reservation.type_prix }}</th>
+                                    <th scope="row">{{ reservation.montant }}</th>
+                                    <th scope="row">{{ reservation.id_location }}</th>
+                                    <th scope="row">
+                                        <a class="btn btn-sm btn-warning" href=""> <span class="fa fa-edit"></span> Modifier</a>
+                                        <a class="btn btn-sm btn-danger" href=""><span class="fa fa-trash"></span> Suprimer</a>
+                                    </th>
+                           </tr>
+                        {% endfor %}
+                     </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div> 
+  
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="card">
+              <div class="card-header border-0">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h3 class="mb-0">Liste des paiements</h3>
+                  </div>
+                  <div class="col text-right">
+                    <a href="#!" class="btn btn-sm btn-primary">Add Order</a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                     <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Numéro de compte</th>
+                            <th scope="col">Montants</th>
+                            <th scope="col">Date paiement</th>
+                            <th scope="col">Numero location</th>
+                            <th scope="col">Actions</th> 
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for listPay in listPay %}
+                           <tr>
+                                    <th scope="row"><a href="">{{ listPay.id }}</a></th>
+                                    <th scope="row">{{ listPay.num_compte }}</th>
+                                    <th scope="row">{{ listPay.total }}</th>
+                                    <th scope="row">{{ listPay.date_pay| date:"d/m/Y" }}</th>
+                                    <th scope="row">{{ listPay.id_loc }}</th>
+                                    <th scope="row">
+                                        <a class="btn btn-sm btn-warning" href=""> <span class="fa fa-edit"></span> Modifier</a>
+                                        <a class="btn btn-sm btn-danger" href=""><span class="fa fa-trash"></span> Suprimer</a>
+                                    </th>
+                           </tr>
+                        {% endfor %}
+                     </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div> 
+        {% include "client/loueur/includes/footer.html" %}
+      </div>
+</div>
+
+
+{% endblock %}
+<!-- Specific JS goes HERE -->
+
+

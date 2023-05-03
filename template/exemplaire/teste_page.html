@@ -1,0 +1,339 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+     main{
+        width: 80%;
+        border: 1px solid lightgrey;
+        padding: 20px;
+        border-radius: 5px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      input{
+        display: block;
+        width: 100%;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border: 1px solid lightgrey;
+        border-radius: 5px;
+      }
+      .page{
+        display: none;
+      }
+
+      .card-header{
+        display: flex;
+        justify-content: space-between;
+      }
+      .page-num{
+        border: 1px solid blue;
+        border-radius: 100%;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        padding: 10px;
+      }
+      .active{
+        color: white;
+        background-color: blue;
+      }
+      
+</style>
+
+<div class="container-fuild" style="margin-top: 30px;">
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+         <div class="card" style="border-color: blue;">
+            <div class="card-header bg-success">
+
+             </div>
+             <div class="card-body" style="background-color: #e9ecef;">
+                <form action="" method="POST" url="/upload-picture" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                    <div class="page" id="page1">
+                        <div class="row">
+                            <div class="col-md-6">
+                               <div class="form-group">
+                                <label for="nom_ch">Nom</label>
+                                <select class="form-control" name="nom_client" id="nom_ch">
+                                   <option value="">-----Choisir votre nom----- </option>
+                                   {% for client in client %}
+                                      <option value="{{client.id_client}}">{{ client.nom }}</option>
+                                    {% endfor %}
+                                 </select>
+                               </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="dt_demande">Date de demande</label>
+                                   <input type="date" class="form-control" name="dt_demande" id="dt_demande">
+                                </div>
+                             </div>
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="cin">Votre Cin</label>
+                                   <input type="text" class="form-control" name="cin_client" id="cin" required="">
+
+                                </div>
+                             </div>
+
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="email">Votre email</label>
+                                   <input type="email" class="form-control" name="email_client" id="email" required="">
+                                </div>
+                             </div>
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="add">Votre adresse</label>
+                                   <input type="text" class="form-control" name="adresse_client" id="add" required="">
+                                </div>
+                             </div>
+
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="permis">Votre permis</label>
+                                   <input type="text" class="form-control" name="permis_client" id="permis" required="">
+                                </div>
+                             </div>
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="nom_agen">Agence</label>
+                                   <select class="form-control" name="nom_agence" id="nom_agen">
+                                       <option value="">--------Choisir un agence-------</option>
+                                      {% for agence in agence %}
+                                         <option value="{{agence.id}}">{{ agence.nom_agence }}</option>
+                                      {% endfor %}
+                                   </select>
+                                </div>
+                             </div>
+
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="nation">Votre Nationalité(e)</label>
+                                   <input type="text" class="form-control" name="nation" id="nation" required="">                            
+                                </div>
+                             </div>
+                        </div>
+                        
+                          <button class="next btn-primary" style="height: 40px; width: 100px; text-align: center; border-radius: 30px;" type="button">Suivant</button>
+                    
+                    </div>
+
+                    <div class="page" id="page2">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                <label for="type_loc">Type de location</label>
+                                <select class="form-control" name="type_loc" id="type_loc">
+                                    <option value="courte duree">Location courte duré</option>
+                                    <option value="longue duree">Location longue duré</option>
+                                </select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nb_voiture">Nombre de véhicule</label>
+                                    <input type="number" class="form-control" name="nb_vehicule" id="nb_voiture" placeholder="0" required="">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="nb_jour">Durée</label>
+                                   <input type="text" class="form-control" name="dure" id="nb_jour" placeholder="exemple: 30 jours" required="">
+                                </div>
+                             </div>
+
+                            <div class="col-md-6">
+                               <div class="form-group">
+                                  <label for="desti">Déstination</label>
+                                  <input type="text" class="form-control" name="destination" id="desti" required="">
+                               </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="dt_debut">Date debut location </label>
+                                   <input type="date" class="form-control" name="dt_debut" id="dt_debut">
+                                </div>
+                             </div>
+
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="dt_fin">Date fin location </label>
+                                   <input type="date" class="form-control" name="dt_fin" id="dt_fin">
+                                </div>
+                             </div>
+                             <div class="mb-3">
+                                <label for="message-text" class="col-form-label">Motif de deplacement:</label>
+                                <textarea class="form-control" name="motif" id="message-text"></textarea>
+                             </div>
+                        </div>
+                       
+                          <button class="prev" style="background-color: gray; color:#e9ecef; height: 40px; width: 100px; text-align: center; border-radius: 30px;" type="button">Précedent</button>
+                          <button class="next btn-primary" style="height: 40px; width: 100px; text-align: center; border-radius: 30px;" type="button">Suivant</button>
+                       
+                    </div>
+
+                    <div class="page" id="page3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <fieldset class="form-group">
+                                    <p>Choix d'autre conducteur</p>
+
+                                    <div class="form-check-inline">
+                                       <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" id="oui" name="autre_cond" value="Oui">J'ai
+                                       </label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                       <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" id="non" name="autre_cond" value="Non">Je n'ai pas
+                                       </label>
+                                    </div>
+                                 </fieldset>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="autre_cond">Nom d'autre conducteur</label>
+                                   <input type="text" class="form-control" name="nom_autre" id="autre_cond" required="">
+                                </div>
+                             </div>
+
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="autre_email">Email d'autre conducteur</label>
+                                   <input type="email" class="form-control" name="email_autre" id="autre_email" required="">
+
+                                </div>
+                             </div>
+
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="cin_autre">Cin d'autre conducteur</label>
+                                   <input type="text" class="form-control" name="cin_autre" id="cin_autre" required="">
+
+                                </div>
+                             </div>
+
+                             <div class="col-md-6">
+                                <div class="form-group">
+                                   <label for="autre_permis">Permis de conduire</label>
+                                   <input type="text" class="form-control" name="permis_autre" id="autre_permis" required="">
+
+                                </div>
+                             </div>
+
+                             <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="autre_adresse">Adresse d'autre conducteur</label>
+                                    <input type="text" class="form-control" name="adresse_autre" id="autre_adresse" required="">
+                                    <span id="available"></span>
+                                 </div>
+                             </div>
+                        </div>
+                          <button class="prev" style="background-color: gray; color:#e9ecef; height: 40px; width: 100px; text-align: center; border-radius: 30px;" type="button">Précedent</button>
+                          <button class="btn-primary" style="height: 40px; width: 100px; text-align: center; border-radius: 30px;">Envoyer</button>
+                    </div>
+                </form>
+             </div>
+         </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //on va chercher les differents élements de notre page
+    const pages = document.querySelectorAll(".page")
+      const header = document.querySelector(".card-header")
+      const nbPages = pages.length //nombre des pages du formulaire
+
+      let pageActive = 1
+
+      //on attend le chargement de la page
+      window.onload = () =>{
+        //on affiche la 1er page du formulaire
+        document.querySelector(".page").style.display = "initial"
+
+        //afficher les numéro de page dans l'entete
+        //on parcours la liste des pages
+        pages.forEach((page, index) =>  {
+          //on crée l'élement "numero de page"
+          let element = document.createElement("div")
+          element.classList.add("page-num")
+          element.id = "num" + (index + 1)
+          if(pageActive === index + 1){
+            element.classList.add("active")
+          }
+          element.innerHTML = index + 1
+          header.appendChild(element)
+
+        })
+
+        //On gere les bouton "suivant"
+        let boutons = document.querySelectorAll(".next")
+        for(let bouton of boutons){
+          bouton.addEventListener("click", pageSuivante)
+        }
+
+        //On gere les bouton "precedente"
+        boutons = document.querySelectorAll(".prev")
+        for(let bouton of boutons){
+          bouton.addEventListener("click", pagePrecedente)
+        }
+      }
+      /*
+        Cette fonction fait avancer le formulaire d'une page
+      */
+     function pageSuivante(){
+     
+      //on masque toute les pages
+      for(let page of pages){
+        page.style.display = "none"
+      }
+
+      //on affiche la page suivante
+      this.parentElement.nextElementSibling.style.display = "initial"
+
+      //on "desactive" tous la pages active 
+      document.querySelector(".active").classList.remove("active")
+      
+       //on incremente page active
+       pageActive++
+      
+       //on active le nouveau numéro
+       document.querySelector("#num"+pageActive).classList.add("active")
+     }
+
+     /*
+        Cette fonction fait reculer le formulaire d'une page
+      */
+      function pagePrecedente(){
+     
+     //on masque toute les pages
+     for(let page of pages){
+       page.style.display = "none"
+     }
+
+     //on affiche la page suivante
+     this.parentElement.previousElementSibling.style.display = "initial"
+
+     //on "desactive" tous la pages active 
+     document.querySelector(".active").classList.remove("active")
+     
+      //on incremente page active
+      pageActive--
+     
+      //on active le nouveau numéro
+      document.querySelector("#num"+pageActive).classList.add("active")
+    }
+</script>
+{% endblock %}

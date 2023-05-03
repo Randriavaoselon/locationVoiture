@@ -1,0 +1,151 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %} Confirmation Paiement {% endblock %}
+{% block content %}
+
+<style>
+    /*bootstrap VS:5*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+*{
+font-family: 'Montserrat', sans-serif;
+}
+
+.redressed {
+font-family: Arial, Helvetica, sans-serif, cursive ;
+}
+
+.merriweather {
+font-family: Arial, Helvetica, sans-serif, serif;
+}
+
+.cc-navbar {
+background-color: rgba(0, 0, 0, 0.55);
+font-family: Arial, Helvetica, sans-serif;
+box-shadow: 1px 1px 3px rgba(255, 255, 255, 0.54);
+z-index: 99;
+}
+
+.cc-navbar .nav-link {
+border-bottom: 1px solid transparent;
+transition: padding-bottom .4s ease-in-out, border-color .3s ease;
+}
+
+.cc-navbar .nav-link:hover{
+padding-bottom: 20px;
+border-bottom-color: var(--bs-teal);
+}
+
+.banner,
+.order-form {
+background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('../../static/images/fond2.jpg') center center fixed no-repeat;
+background-size: cover;
+height: 800px;
+}
+
+.order-form {
+height: 500px;
+}
+
+.banner .banner-desc {
+font-size: 48px;
+font-weight: 400;
+color: #fff;
+}
+
+.cc-menu {
+background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('../../static/images/fond3_fin.jpg') center center fixed no-repeat;
+background-size: cover;
+height: 1200px;
+}
+
+.btn-order {
+color: var(--bs-teal);
+border-color: var(--bs-teal);
+transition: 0.5s;
+}
+.btn-order:hover,
+.btn-order:active {
+color: #fff;
+background-color: var(--bs-teal);
+}
+
+</style>
+{% include 'paiement/navbar_pay.html' %}
+<section class="banner d-flex justify-content-center align-items-center pt-5">
+    <div class="container my-5 py-5">
+       <div class="row">
+          <div class="col-md-6">
+            <div class="card" style="height: 23rem;">
+              {% for pay in pay %}
+               <div class="modal-header">
+                  <h5 class="modal-title" style="color: rgb(154, 154, 243);" id="exampleModalLabel">Comfirmation de votre paiement</h5>
+                  <a class="btn" href="{% url 'generer' pay.id  %}" data-toggle="tooltip" data-placement="bottom" title="Imprimer" style="margin-left: 5rem;"><img src="../../static/images/print.png" alt=""></a>
+                </div>
+                
+                <div class="modal-body">
+                  <p><strong>Numéro Location:</strong>  {{pay.id_loc}} </p><br>
+                  <p><strong>Numéro téléphone:</strong>  0{{pay.num_compte}}</p><br>
+                  <p><strong>Date de paiement:</strong>  {{pay.date_pay|date:"d/m/Y"}}</p><br>
+                  <p><strong>Montants:</strong>  {{pay.total}} €</p>
+                  <small>S'il ne s'agit pas de votre paiement veillez <a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Cliquer ici</a></small>
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+          <div class="col-md-6">
+             <h1 class="text-capitalize py-3 redressed banner-desc">
+               Votre résevation a été bien envoyer avec success!On vous remercie pour votre confiance.
+             </h1>
+             <p>
+               <a class="btn btn-order btn-lg me-5 rounded-0 merriweather" href="{% url 'a_inscription' %}">Revenir à l'acceuil</a>
+             </p>
+          </div>
+       </div>
+       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Confirmations</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="" method="get">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="recherche" class="col-form-label">Réchercher votre nom :</label>
+                  <input  name="q" class="form-control" type="search" id="recherche" placeholder="rechercher ici..." />
+                </div>
+              </form>
+              <div class="table-responsive" style="height: 10rem;">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Nom et prenom</th>
+                        <th scope="col">Numero location</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for p in paiement %}
+                       <tr>
+                                <th scope="col">{{ p.id_loc.nom_Client }}</th>
+                                <th scope="col" style="text-align: center;">{{ p.id_loc }}</th>
+                                <th scope="col">
+                                  <a class="btn btn-success btn-lg me-2 rounded-0 merriweather" href="{% url 'generer' p.id  %}">Imprimer</a>
+                                </th>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

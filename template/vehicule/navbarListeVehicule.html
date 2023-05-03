@@ -1,0 +1,27 @@
+<nav class="cc-navbar navbar navbar-expand-lg position-fixed navbar-dark w-100">
+    <div class="container-fluid">
+       <a class="navbar-brand text-uppercase fw-bolder mx-2 py-2" href="#">Location</a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <form action="" method="get">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          
+            {% csrf_token %}
+              <input type="search" name="q" data-toggle="tooltip" data-placement="bottom" title="Tapez Entrer pour executer" class="form-control" placeholder="recheche par type ou marque" style="width: 18rem;border-radius: 30px;">
+          <li class="nav-item pe-4">
+            <!-- <button class="btn btn-order mx-2 py-2" rounded-0>Actualiser</button> -->
+          </li>
+          <li class="nav-item pe-4">
+            <a class="btn btn-order mx-2 py-2 text-white" href="{% url 'a_inscription' %}" rounded-0>Revenir à l' Accueil</a>
+          </li>
+          <!-- <li class="nav-item pe-4">
+            <button class="btn btn-order mx-2 py-2" rounded-0>Actualiser</button>
+          </li> -->
+        </ul>
+      </div>
+     </form>
+    </div>
+  </nav>

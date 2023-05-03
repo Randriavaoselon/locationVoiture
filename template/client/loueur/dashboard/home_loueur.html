@@ -1,0 +1,808 @@
+{% extends "client/loueur/layouts/base.html" %}
+{% block title %} Compte principale de {{user.first_name}} {% endblock title%}
+{% load static %}
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+
+<style>
+    /*bootstrap VS:5*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+
+.progresse{
+    color: white;
+}
+
+*{
+font-family: 'Montserrat', sans-serif;
+}
+
+.redressed {
+font-family: Arial, Helvetica, sans-serif, cursive ;
+}
+
+.merriweather {
+font-family: Arial, Helvetica, sans-serif, serif;
+}
+
+.cc-navbar {
+background-color: rgba(0, 0, 0, 0.55);
+font-family: Arial, Helvetica, sans-serif;
+box-shadow: 1px 1px 3px rgba(255, 255, 255, 0.54);
+z-index: 99;
+}
+
+.cc-navbar .nav-link {
+border-bottom: 1px solid transparent;
+transition: padding-bottom .4s ease-in-out, border-color .3s ease;
+}
+
+.cc-navbar .nav-link:hover{
+padding-bottom: 20px;
+border-bottom-color: var(--bs-teal);
+}
+
+.banner,
+.order-form {
+background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('../../static/images/fond.jpg') center center fixed no-repeat;
+background-size: cover;
+height: 800px;
+}
+
+.order-form {
+height: 500px;
+}
+
+.banner .banner-desc {
+font-size: 48px;
+font-weight: 400;
+color: #fff;
+}
+
+.cc-menu {
+background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('../../static/images/fond3_fin.jpg') center center fixed no-repeat;
+background-size: cover;
+height: 1200px;
+}
+
+.btn-order {
+color: var(--bs-teal);
+border-color: var(--bs-teal);
+transition: 0.5s;
+}
+.btn-order:hover,
+.btn-order:active {
+color: #fff;
+background-color: var(--bs-teal);
+}
+
+/* style footer */
+.footer-content{
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+text-align: center;
+}
+.footer-content h3{
+font-size: 2.1rem;
+font-weight: 500;
+text-transform: capitalize;
+line-height: 3rem;
+}
+.footer-content p{
+max-width: 500px;
+margin: 10px auto;
+line-height: 28px;
+font-size: 14px;
+color: #cacdd2;
+}
+.socials{
+list-style: none;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 1rem 0 3rem 0;
+}
+.socials li{
+margin: 0 10px;
+}
+.socials a{
+text-decoration: none;
+color: #fff;
+border: 1.1px solid white;
+padding: 5px;
+
+border-radius: 50%;
+
+}
+.socials a i{
+font-size: 1.1rem;
+width: 20px;
+
+
+transition: color .4s ease;
+
+}
+.socials a:hover i{
+color: aqua;
+}
+
+.footer-bottom{
+text-align: center;
+}
+
+.footer-bottom p{
+float: left;
+font-size: 14px;
+word-spacing: 2px;
+text-transform: capitalize;
+}
+.footer-bottom p a{
+color:#44bae8;
+font-size: 16px;
+text-decoration: none;
+}
+.footer-bottom span{
+text-transform: uppercase;
+opacity: .4;
+font-weight: 200;
+}
+.footer-menu{
+float: right;
+
+}
+.footer-menu ul{
+display: flex;
+}
+.footer-menu ul li{
+padding-right: 10px;
+display: block;
+}
+.footer-menu ul li a{
+color: #cfd2d6;
+text-decoration: none;
+}
+.footer-menu ul li a:hover{
+color: #27bcda;
+}
+
+@media (max-width:500px) {
+.footer-menu ul{
+display: flex;
+margin-top: 10px;
+margin-bottom: 20px;
+}
+}
+
+/* style for car image */
+.btn-file{
+         position: relative;
+         overflow: hidden;
+      }
+
+/* style for display form car */
+.page{
+        display: none;
+      }
+
+      .card-header{
+        display: flex;
+        justify-content: space-between;
+      }
+      .page-num{
+        border: 1px solid blue;
+        border-radius: 100%;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        padding: 10px;
+      }
+      .active{
+        color: white;
+        background-color: blue;
+      }      
+      
+</style>
+
+{% include 'client/loueur/includes/sidenav.html' %}
+
+
+<div class="main-content" id="panel">
+    {% include "client/loueur/includes/navigation.html" %}
+
+    <!-- Header -->
+    <div class="header bg-primary pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        
+                    </div>
+                    <div class="col-lg-6 col-5 text-right">
+                        <button type="button" class="btn btn-sm btn-neutral" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Nouveau Agence</button>
+                        <a class="btn btn-sm btn-neutral" href="ajout_vehicule" >Nouveau Véhicule</a>
+                    </div>
+                </div>
+
+                 <!-- Modal form agence -->
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Nouveau agence</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <form action="" method="POST">
+                            {% csrf_token %}
+                          <div class="row">
+                            <div class="col-md-6">
+                             <div class="form-group">
+                              <label for="recipient-name" class="col-form-label">Nom de l'agence:</label>
+                              <input type="text" class="form-control" name="nom_agence" id="recipient-name">
+                            </div>
+                            </div>
+
+                            <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="recipient-adresse" class="col-form-label">Adresse:</label>
+                              <input type="text" class="form-control" name="adresse_agence" id="recipient-adresse">
+                            </div>
+                            </div>
+
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="recipient-phone" class="col-form-label">Phone:</label>
+                                <input type="text" onkeypress="return onlyNumberKey(event)"  maxlength="10" class="form-control" name="tel_agence" id="recipient-phone">
+                            </div>
+                            </div>
+
+                            <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="recipient-email" class="col-form-label">Email:</label>
+                                <input type="email" class="form-control" name="email_agence" id="recipient-email">
+                            </div>
+                            </div>
+
+                            <div class="md-3">
+                                <label for="recipient-fax" class="col-form-label">Fax:</label>
+                                <input type="text" class="form-control" name="fax_agence" id="recipient-fax">
+                            </div>
+
+                          </div>  
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Valider</button>
+                          </div> 
+                          </form>
+                        </div>
+                        
+                      </div>
+                    </div>
+                </div>
+                
+                <!-- Modal form Vehicule -->
+                
+                <!-- <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class=""></div>
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <div class="card-header">                       
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      </div>
+                      <div class="modal-body">
+                        <form action="" method="POST">
+                          {% csrf_token %}
+                          <div class="page" id="page1">  
+                              <div class="row">
+                                <div class="col-md-12" id="selectedBanner">
+                                  <div class="text-align: center;">
+                                    <img id="img-upload">
+                                    <div >
+                                        <img src="{% static 'images/carImage.jpg' %}" id="image" alt="" style="width: 28rem; height: 10rem;margin-right: 4rem;cursor: pointer;
+                                        display: block;">
+                                    </div>
+                                    <br><br>
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                          <span class="btn btn-info btn-file">
+                                              Choisir un véhicule <input type="file" id="img" name="avatar" onchange="previewPicture(this)" required>
+                                          </span>
+                                        </span>
+                                    </div>
+                                  </div> 
+                              </div>
+      
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="recipient-immat" class="col-form-label">Numéro Immatricule:</label>
+                                  <input type="text" class="form-control" name="numImm" id="recipient-immat">
+                                </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="recipient-km" class="col-form-label">Kilometrage:</label>
+                                  <input type="text" class="form-control" name="kilometre" id="recipient-km">
+                                </div>
+                                </div>
+
+                                  <div class="col-md-6">
+                                    <label for="type_vehic">Type de vehicule</label>
+                                    <select class="form-control" name="type_vehicule" id="type_vehic">
+                                        <option value="">Choisir un type de vehicule</option>
+                                        <option value="Coupés">Les véhicules coupés</option>
+                                        <option value="Berlines">Les voitures berlines</option>
+                                        <option value="Hayons">Les véhicules hayons</option>
+                                        <option value="Type break">Les voitures de type break</option>
+                                        <option value="Type pick-up">Les voitures de type pick-up</option>
+                                        <option value="Crossovers">Les crossovers</option>
+                                        <option value="Type SUV">Les véhicules de type SUV</option>
+                                    </select>
+                                  </div>
+                            
+                                <div class="col-md-6">
+                                      <label for="marque_vehic">Marque de vehicule</label>
+                                        <select class="form-control" name="marque_vehicule" id="marque_vehic">
+                                            <option value="">Choisir un marque de vehicule</option>
+                                            <option value="Alfa Romeo">Alfa Romeo</option>
+                                            <option value="Alpine">Alpine</option>
+                                            <option value="BMW">BMW</option>
+                                            <option value="Chevrolet">Chevrolet</option>
+                                            <option value="DS">DS</option>
+                                            <option value="Fiat">Fiat</option>
+                                            <option value="Infiniti">Infiniti</option>
+                                            <option value="Jaguar">Jaguar</option>
+                                        </select>
+                                </div>
+                                
+                              </div> 
+                              <br>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                              <button type="button" class="btn btn-primary">Suivant</button>
+                          </div> 
+                          <div class="page" id="page2">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                 <label for="recipient-date" class="col-form-label">Date mise en circuit:</label>
+                                 <input type="date" class="form-control" name="" id="recipient-date">
+                               </div>
+                               </div>
+
+                               <div class="col-md-6">
+                                <div class="form-group">
+                                 <label for="recipient-prix" class="col-form-label">Prix:</label>
+                                 <input type="number" class="form-control" name="" placeholder="prix en €" id="recipient-prix">
+                               </div>
+                               </div>
+                            </div>
+                            <br>
+                            <button type="button" class="prev" style="background-color: rgb(245, 239, 239); width: 7rem;height: 3rem;border-radius: 2px;border-radius: 10px;color: black;">Précedent</button>
+                            <button type="button" class="btn btn-primary">Valider</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                  
+                <!-- Widget 1 -->
+                <div class="row">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Votre solde</h5>
+                                        <span class="h2 font-weight-bold mb-0">{{ totalPay|default:0 }} Ar</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                            <i class="ni ni-active-40"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-nowrap">
+                                     Solde actuellement
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Widget 2 -->
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Total Location</h5>
+                                        <span class="h2 font-weight-bold mb-0">{{ nbLocation|default:0 }}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-pie-35"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-nowrap">
+                                        Nombre demande de location
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Widget 3 -->
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Nombre vehicules</h5>
+                                        <span class="h2 font-weight-bold mb-0">{{ nbrReservation|default:0 }}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                            <i class="ni ni-money-coins"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                <span class="text-nowrap">
+                                Nombre total de vehicule
+                                </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Widget 4 -->
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Solde Max:</h5>
+                                        <span class="h2 font-weight-bold mb-0">{{ maxPay|default:0 }} Ar</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                                            <i class="ni ni-chart-bar-32"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-nowrap">
+                                      Votre solde maximale
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt--6">
+
+      <div class="row">
+        <div class="col-md" style="background-color: #0D0E11;">
+            <br>
+            <h1 class="progresse">Paiements:</h1>
+            <canvas id="paiement" width="250" height="200"></canvas>
+        </div>
+        <div class="col-md" style="background-color: #1b1c1c;">
+            <br>
+            <h1 class="progresse">Paiements à chaque locations:</h1>
+            <canvas id="paie_loc" width="250" height="200"></canvas>
+        </div>
+   
+      </div>
+      <div class="row mt-5" id="table">
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Demande location</h3>
+                </div>
+                <div class="col text-right">
+                 
+                </div>
+              </div>
+            </div>
+            
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                   <thead class="thead-light">
+                      <tr>
+                          <th scope="col">Id</th>
+                          <th scope="col">Nom clients</th>
+                          <th scope="col">Type location</th>
+                          <th scope="col">Date demande</th>
+                          <th scope="col">Déstination</th>
+                          <!-- <th scope="col">Motifs</th> -->
+                          <th scope="col">Avoir autre conducteur</th>
+                          <th scope="col">Son Nom</th>
+                          <th scope="col">Son Email</th>
+                          <th scope="col">Son CIN</th>
+                          <th scope="col">Son Permis</th>
+                          <th scope="col">Son Adresse</th> 
+                          <th scope="col">Actions</th> 
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {% for locationList in locationList %}
+                         <tr>
+                                  <th scope="row">{{ locationList.id }}</a></th>
+                                  <th scope="row">{{ locationList.nom_Client }}</th>
+                                  <th scope="row">{{ locationList.type_loc }}</th>
+                                  <th scope="row">{{ locationList.dt_demande| date:"d/m/Y"}}</th>
+                                  <th scope="row">{{ locationList.destination }}</th>
+                                  <!-- <th scope="row">{{ locationList.motif }}</th> -->
+                                  <th scope="row">{{ locationList.autre_cond }}</a></th>
+                                  <th scope="row">{{ locationList.nom_autre }}</th>
+                                  <th scope="row">{{ locationList.email_autre }}</th>
+                                  <th scope="row">{{ locationList.cin_autre }}</th>
+                                  <th scope="row">{{ locationList.permis_autre }}</th>
+                                  <th scope="row">{{ locationList.adresse_autre }}</th>
+                              
+                                  <th scope="row">
+                                    <a class="btn btn-sm btn-success" href="{% url 'details' locationList.id %}">détails Client</a>
+                                      <a class="btn btn-sm btn-warning" href="{% url 'edite_loc' locationList.id %}"> <span class="fa fa-edit"></span> Modifier</a>
+                                      <a class="btn btn-sm btn-danger" href="{% url 'supprime' locationList.id %}"><span class="fa fa-trash"></span> Suprimer</a>
+                                  </th>
+                         </tr>
+                      {% endfor %}
+                   </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>  
+
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Vehicule ajouter</h3>
+                </div>
+                <div class="col text-right">
+                  <form action="" method="get">
+                    {% csrf_token %}
+                    <div class="">
+                      <label for="recherche" class="col-form-label">Récherche:</label>
+                      <input  name="q" type="search" id="recherche" placeholder="Numero location..." />
+                    </div>  
+                  </form>
+                </div>
+              </div>
+            </div>
+            
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                   <thead class="thead-light">
+                      <tr>
+                          <th scope="col">Id</th>
+                          <th scope="col">Immatriculation</th>
+                          <th scope="col">Numéro de série</th>
+                          <th scope="col">Type véhicule</th>
+                          <th scope="col">Marque véhicule</th>
+                          <th scope="col">Kilometrage</th>
+                          <th scope="col">Prix</th>
+                          <th scope="col">Actions</th> 
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {% for reservation in reservation %}
+                         <tr>
+                                  <th scope="row">{{ reservation.id }}</th>
+                                  <th scope="row">{{ reservation.numImm }}</th>
+                                  <th scope="row">{{ reservation.numSerie }}</th>
+                                  <th scope="row">{{ reservation.type_vehicule }}</th>
+                                  <th scope="row">{{ reservation.marque_vehicule }}</th>
+                                  <th scope="row">{{ reservation.kilometrage }}</th>
+                                  <th scope="row">{{ reservation.prixJ }} Ar</th>
+                                  <th scope="row">
+                                      <a class="btn btn-sm btn-warning" href="{% url 'edite_reserve' reservation.id  %}"> <span class="fa fa-edit"></span> Modifier</a>
+                                      <a class="btn btn-sm btn-danger" href="{% url 'supprime_reservation' reservation.id %}"><span class="fa fa-trash"></span> Suprimer</a>
+                                  </th>
+                         </tr>
+                      {% endfor %}
+                   </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div> 
+
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0"> Paiements</h3>
+                </div>
+                <div class="col text-right">
+                  <form action="" method="get">
+                    {% csrf_token %}
+                      <label for="recherche" class="col-form-label">Récherche:</label>
+                      <input  name="search" type="search" id="recherche" placeholder="Numero location..." />
+                  </form>
+                </div>
+              </div>
+            </div>
+            
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                   <thead class="thead-light">
+                      <tr>
+                          <th scope="col">Id</th>
+                          <th scope="col">Numéro de compte</th>
+                          <th scope="col">Montants</th>
+                          <th scope="col">Date paiement</th>
+                          <th scope="col">Numero location</th>
+                          <th scope="col">Actions</th> 
+                      </tr>
+                   </thead>
+                   <tbody>
+                      {% for listPay in listPay %}
+                         <tr>
+                                  <th scope="row">{{ listPay.id }}</th>
+                                  <th scope="row">0{{ listPay.num_compte }}</th>
+                                  <th scope="row">{{ listPay.total }} €</th>
+                                  <th scope="row">{{ listPay.date_pay| date:"d/m/Y" }}</th>
+                                  <th scope="row">{{ listPay.id_loc }}</th>
+                                  <th scope="row">
+                                      <!-- <a class="btn btn-sm btn-warning" href=""> <span class="fa fa-edit"></span> Modifier</a> -->
+                                      <a class="btn btn-sm btn-danger" href="{% url 'supprime_paiement' listPay.id %}"><span class="fa fa-trash"></span> Suprimer</a>
+                                  </th>
+                         </tr>
+                      {% endfor %}
+                   </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {% include "client/loueur/includes/footer.html" %}
+    </div>
+ </div>
+
+ <script>
+  //on va chercher les differents élements de notre page
+  const pages = document.querySelectorAll(".page")
+    const header = document.querySelector(".card-header")
+    const nbPages = pages.length //nombre des pages du formulaire
+
+    let pageActive = 1
+
+    //on attend le chargement de la page
+    window.onload = () =>{
+      //on affiche la 1er page du formulaire
+      document.querySelector(".page").style.display = "initial"
+
+      //afficher les numéro de page dans l'entete
+      //on parcours la liste des pages
+      pages.forEach((page, index) =>  {
+        //on crée l'élement "numero de page"
+        let element = document.createElement("div")
+        element.classList.add("page-num")
+        element.id = "num" + (index + 1)
+        if(pageActive === index + 1){
+          element.classList.add("active")
+        }
+        element.innerHTML = index + 1
+        header.appendChild(element)
+
+      })
+
+      //On gere les bouton "suivant"
+      let boutons = document.querySelectorAll(".next")
+      for(let bouton of boutons){
+        bouton.addEventListener("click", pageSuivante)
+      }
+
+      //On gere les bouton "precedente"
+      boutons = document.querySelectorAll(".prev")
+      for(let bouton of boutons){
+        bouton.addEventListener("click", pagePrecedente)
+      }
+    }
+    /*
+      Cette fonction fait avancer le formulaire d'une page
+    */
+   function pageSuivante(){
+   
+    //on masque toute les pages
+    for(let page of pages){
+      page.style.display = "none"
+    }
+
+    //on affiche la page suivante
+    this.parentElement.nextElementSibling.style.display = "initial"
+
+    //on "desactive" tous la pages active 
+    document.querySelector(".active").classList.remove("active")
+    
+     //on incremente page active
+     pageActive++
+    
+     //on active le nouveau numéro
+     document.querySelector("#num"+pageActive).classList.add("active")
+   }
+
+   /*
+      Cette fonction fait reculer le formulaire d'une page
+    */
+    function pagePrecedente(){
+   
+   //on masque toute les pages
+   for(let page of pages){
+     page.style.display = "none"
+   }
+
+   //on affiche la page suivante
+   this.parentElement.previousElementSibling.style.display = "initial"
+
+   //on "desactive" tous la pages active 
+   document.querySelector(".active").classList.remove("active")
+   
+    //on incremente page active
+    pageActive--
+   
+    //on active le nouveau numéro
+    document.querySelector("#num"+pageActive).classList.add("active")
+  }
+</script>
+
+<script type="text/javascript" >
+  // L'image img#image
+  var image = document.getElementById("image");
+   
+  // La fonction previewPicture
+  var previewPicture  = function (e) {
+
+      // e.files contient un objet FileList
+      const [picture] = e.files
+
+      // "picture" est un objet File
+      if (picture) {
+          // On change l'URL de l'image
+          image.src = URL.createObjectURL(picture)
+      }
+  } 
+</script>
+<script>
+  function onlyNumberKey(evt) {
+         
+         // Only ASCII character in that range allowed
+         var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+         if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+         return true;
+      }
+</script>
+
+{% endblock %}
+<!-- Specific JS goes HERE -->
+
+
+

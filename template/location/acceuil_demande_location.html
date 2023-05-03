@@ -1,0 +1,761 @@
+{% extends "base/base.html" %}
+{% block title %} Acceuil demande location {% endblock title%}
+{% load static %}
+{% block content %}
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+body{
+	padding: 0;
+	margin: 0;
+	background:rgb(29, 27, 27);
+
+}
+html,h1,h2,h3,h4,h5,h6,a{
+	font-family: "Raleway";
+}
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+::-webkit-scrollbar{width : 15px;  }
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: red;
+  border-radius: 10px;
+}
+
+.navbar{
+	background:#35312f;
+}
+.nav-link , .navbar-brand{
+	color: #f4f4f4;
+	cursor: pointer;
+	border-color: rgb(236, 228, 231);
+}
+.nav-link{
+	margin-right: 1em !important;
+}
+.nav-link:hover{
+	background: #f4f4f4;
+	color: #f97300;
+
+}
+.navbar-collapse{
+ justify-content: flex-end;
+}
+.navbar-toggler{
+	background:rgba(255, 255, 255, 0.849) !important;
+}
+
+/*header style*/
+.header{
+	position: relative;
+	background-image: url('../../static/images/log4.png');
+
+	background-size: cover;
+	background-position: center;
+}
+.overlay{
+	position: absolute;
+	min-height: 100%;
+	min-width: 100%;
+	left: 0;
+	top: 0;
+	background: rgba(61, 60, 60, 0.79);
+}
+.description{
+    position: absolute;
+    top: 30%;
+    margin: auto;
+    padding: 2em;
+
+}
+.description h1{
+	color:#faf6f2 ;
+}
+.description p{
+	color:rgb(248, 240, 240);
+	font-size: 20px;
+	width: 50%;
+	line-height: 1.5;
+}
+.description button{
+	border:1px  solid #F97300;
+	background:#F97300;
+	color:#fff;
+}
+.about{
+	margin: 4em 0;
+	padding: 1em;
+	position: relative;
+}
+.about h1{
+	color:rgb(248, 246, 244);
+	margin: 2em;
+}
+.about img{
+	height: 100%;
+    width: 100%;
+    border-radius: 5%
+}
+.about span{
+	display: block;
+	color: #888;
+	position: absolute;
+	left: 115px;
+}
+.about .desc{
+	padding: 2em;
+	border-left:4px solid #10828C;
+}
+.about .desc h3{
+	color: #10828C;
+}
+.about .desc p{
+	line-height:2;
+	color:#888;
+}
+
+/*section 2 */
+
+.abouts{
+	background-color: rgb(218, 211, 211);
+	margin: 4em 0;
+	padding: 1em;
+	position: relative;
+}
+
+.abouts h1{
+	color:rgb(71, 69, 68);
+	margin: 2em;
+}
+.abouts img{
+	height: 100%;
+    width: 100%;
+    border-radius: 10%;
+	
+}
+.abouts span{
+	display: block;
+	color: #888;
+	position: absolute;
+	left: 115px;
+}
+.abouts .desc{
+	padding: 2em;
+	border-left:4px solid #10828C;
+}
+.abouts .desc h3{
+	color: #10828C;
+}
+.abouts .desc ul li{
+	line-height:2;
+	color:#888;
+}
+
+
+/*Portfolio*/
+.portfolio{
+	margin: 4em 0;
+    position: relative;
+}
+.portfolio h1{
+	color:#F97300;
+	margin: 2em;
+}
+.portfolio img{
+	 height: 15rem;
+	 width: 100%;
+	 margin: 1em;
+
+
+
+}
+
+/*blog style*/
+
+.blog{
+	
+	background-color: rgb(207, 200, 200);
+	margin: 4em 0;
+	padding: 1em;
+	position: relative;
+	
+
+}
+.blog h1{
+	color:#161514;
+	margin: 2em;
+}
+.blog .card{
+	box-shadow: 0 0 20px #ccc;
+}
+.blog .card img{
+	width: 100%;
+	height: 12em;
+}
+
+@media and (max-width: 768px){
+
+ .team .item img{
+ 	width: 100%;
+ }
+}
+.blog .card-title{
+	color:#11100e;
+	font-family: 'Montserrat', sans-serif;
+
+}
+.blog .card-body{
+	padding: 1em;
+
+}
+
+.team{
+	margin: 4em 0;
+	position: relative;
+
+}
+.team h1{
+	color:rgb(248, 246, 244);
+	margin: 2em;
+}
+.team .item{
+	position: relative;
+	overflow: hidden;
+}
+.team .des{
+	background: #F97300;
+	color: #fff;
+	text-align: center;
+	border-top-right-radius: 93%;
+	transition:.3s ease-in-out;
+	position: absolute;
+	width: 88%;
+	bottom: 24px;
+
+
+}
+.team .item:hover .des{
+	height: 100%;
+	background:#f973007d;
+    position: absolute;
+	width: 89%;
+	padding: 5em;
+	top: 0;
+	border-top-right-radius: 0;
+}
+.contact-form{
+	margin: 6em 0;
+	position: relative;
+}
+
+.contact-form h1{
+	padding:2em 1px;
+	color: #F97300;
+}
+.contact-form .right{
+	max-width: 600px;
+}
+.contact-form .right .btn-secondary{
+	background:  #F97300;
+	color: #fff;
+	border:0;
+}
+.contact-form .right .form-control::placeholder{
+	color: #888;
+	font-size: 16px;
+}
+
+/* Footer */
+
+.footer-content{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   text-align: center;
+}
+.footer-content h3{
+   font-size: 2.1rem;
+   font-weight: 500;
+   text-transform: capitalize;
+   line-height: 3rem;
+}
+.footer-content p{
+   max-width: 500px;
+   margin: 10px auto;
+   line-height: 28px;
+   font-size: 14px;
+   color: #cacdd2;
+}
+.socials{
+   list-style: none;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   margin: 1rem 0 3rem 0;
+}
+.socials li{
+   margin: 0 10px;
+}
+.socials a{
+   text-decoration: none;
+   color: #fff;
+   border: 1.1px solid white;
+   padding: 5px;
+
+   border-radius: 50%;
+
+}
+.socials a i{
+   font-size: 1.1rem;
+   width: 20px;
+
+
+   transition: color .4s ease;
+
+}
+.socials a:hover i{
+   color: aqua;
+}
+
+.footer-bottom{
+   text-align: center;
+}
+
+.footer-bottom p{
+     float: left;
+     font-size: 14px;
+     word-spacing: 2px;
+     text-transform: capitalize;
+}
+.footer-bottom p a{
+ color:#44bae8;
+ font-size: 16px;
+ text-decoration: none;
+}
+.footer-bottom span{
+   text-transform: uppercase;
+   opacity: .4;
+   font-weight: 200;
+}
+.footer-menu{
+ float: right;
+
+}
+.footer-menu ul{
+ display: flex;
+}
+.footer-menu ul li{
+padding-right: 10px;
+display: block;
+}
+.footer-menu ul li a{
+ color: #cfd2d6;
+ text-decoration: none;
+}
+.footer-menu ul li a:hover{
+ color: #27bcda;
+}
+
+@media (max-width:500px) {
+.footer-menu ul{
+ display: flex;
+ margin-top: 10px;
+ margin-bottom: 20px;
+}
+}
+
+#googleMap{
+    width: 100%;
+    height: 400%;
+  }
+
+</style>
+{% include 'location/navbar_demande_location.html' %}
+
+<!-- En tete -->
+
+<header class="header ">
+	<div class="overlay"></div>
+	 <div class="container">
+				<div class="description ">
+						<h1>
+							Bienvenue à la demande de location!
+							<p>
+							veuillez lire les conditions à respecter pour votre location si vous plait.
+							</p>
+							<button type="button" class="btn btn-secondary btn-lg bg-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Demander maintenat</button>
+						</h1>
+				</div>
+	 </div>
+	 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title" id="exampleModalLabel">Agence disponible</h5>
+			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form action="" method="get">
+					{% csrf_token %}
+					<div class="mb-3">
+					  <label for="recipient-agence" class="col-form-label">Réchercher nom d'agence :</label>
+					  <input  name="q" class="form-control" type="search" id="recipient-agence" placeholder="rechercher ici..." />
+					  <button>Rechercher</button>
+					</div>
+				</form>
+				<div class="table-responsive" style="height: 10rem;">
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead>
+						<tr>
+							<th>Nom Agence</th>
+							<th>Adresse</th>
+							<th>contact</th>
+							<th>loueur</th>
+							<th>Action</th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for agenceListe in agen %}
+						   <tr>
+									<th>{{ agenceListe.nom_agence }}</th>
+									<th>{{ agenceListe.adresse_agence }}</th>
+									<th>{{ agenceListe.tel_agence }}</th>
+									<th style="text-align: center;">{{ agenceListe.username }}</th>
+									<th>
+									  <a class="btn btn-success btn-lg me-2 rounded-0 merriweather" href="{% url 'envoie_demande' pk=agenceListe.id %}">Contunier</a>
+									</th>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				  </div>
+			 </div>
+			<div class="modal-footer">
+			   <small style="margin-right: 2rem;">Veuillez prendre notre contact pour quisque on poura se communiquer</small>
+			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
+  </header>
+<!-- section 2-->
+<div class="abouts" id="condition">
+	<div class="container">
+	  <h1 class="text-center">Condition de location</h1>
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-12">
+				<img src="{% static 'images/log5.png'%}" class="img-fluid">
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-12 desc">
+
+				<h3>
+					Quelles sont les obligations et
+					les règles qui s'appliquent aux
+					loueurs professionnels de
+					voitures ?
+				</h3>
+				<p>
+					Les loueurs professionnels de voitures sont soumis à
+					l’obligation d’assurance : tous les véhicules de la flotte
+					doivent impérativement être assurés. Cette assurance doit
+					être a minima au tiers et peut être complétée par des
+					garanties facultatives (tous risques, rapatriement…).
+					Attention, rares sont les assureurs qui acceptent d’assurer
+					les loueurs de véhicules. Certains proposent des contrats
+					spécifiquement dédiés, le plus souvent assortis de franchises
+					importantes (notez qu'en cas d’accident responsable, la
+					franchise est à la charge du locataire). Pour trouver un
+					assureur pour une activité de location de voiture, il est
+					conseillé de passer par un courtier
+					Le coût de l'assurance peut être répercuté dans le tarif de
+					location du véhicule.
+					Par ailleurs, toutes les conséquences juridiques découlant
+					d’un éventuel accident doivent impérativement être évoquées
+					dans le contrat de location. Un cabinet d’expertise comptable
+					peut vous aider à rédiger ce contrat.
+
+				</p>
+				
+			</div>
+		</div>
+	</div>
+</div>
+<!-- section 3-->
+<div class="abouts" id="apropo">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-12">	
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-12 desc">
+				<p>
+					En dehors de l’assurance, les loueurs professionnels ont
+					également des obligations envers leurs clients (loi
+					d’orientation des transports du 30 Décembre 1982) :
+					• - afficher les prix TTC dans le local de réception de la
+					clientèle
+					• - fournir une description claire de la prestation proposée
+					et remettre au locataire un contrat de location dans
+					lesquelles toutes les clauses particulières doivent figurer
+					(articles 1719 et suivants du Code Civil, arrêté ministériel
+					du 18 avril 1991)
+					• - effectuer un état des lieux avec le locataire avant la
+					remise des clés
+					• - délivrer un véhicule en bon état de fonctionnement et
+					sans vices cachés (si ce n’est pas le cas, le locataire est
+					en droit de demander le remplacement du véhicule)
+					• - en cas de panne pendant la location : changer le
+					véhicule (ou rembourser le locataire) et assurer les
+					grosses réparations (ou rembourser d’éventuels frais de
+					dépannage)
+					• - en cas de non-disponibilité d’un véhicule réservé :
+					effectuer un sur-classement sans augmentation de prix
+					(ou, à défaut, un sous-classement avec baisse de prix)
+					• - entretenir le véhicule en dehors des périodes de
+					location pour que celui-ci soit en parfait état
+					Les loueurs de voitures professionnels doivent être inscrits
+					au Registre du Commerce et des Sociétés (RCS).
+					En espérant avoir répondu à votre question,
+					Si vous souhaitez obtenir plus d'informations sur les
+					obligations s'appliquant aux loueurs de voitures, je vous invite
+					à vous renseigner auprès de la FNLV, la
+					.
+					Découvrez d'autres questions en
+					Assurance automobile :
+					Produit / service - les questions fréquentes :
+					Fédération Nationale des Loueurs de Véhicules
+				</p>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- section 4-->
+<div class="abouts" id="ap">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-12">
+				<img src="{% static 'images/log6.png'%}" class="img-fluid">
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-12 desc">
+
+				<h3>
+					CONDITIONS A REMPLIR POUR LOUER
+				</h3>
+				<p>
+					Vous devez nous fournir, avec justificatifs, tous les renseignements indispensables
+					à l’établissement de votre contrat et notamment : votre identité, votre adresse,
+					la catégorie et la date de délivrance de votre permis de conduire,
+					le moyen de paiement de votre location tel qu’indiqué.
+					Tout conducteur doit être âgé d’au moins 21 ans et titulaire d’un permis de conduire,
+					en cours de validité, depuis au moins 12 mois et correspondant
+					à la catégorie du véhicule loué.
+					Par dérogation à ce qui précède, la location de véhicules
+					de catégorie A et B est également autorisée pour tout conducteur
+					âgé d’au moins 18 ans et titulaire depuis au moins un jour franc d’un permis
+					de conduire, en cours de validité, obtenu dans le cadre e l’apprentissage anticipée
+					de conduite et le justifiant ( notamment par la présentation de son livret de conduite
+					accompagnée).
+
+				</p>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- section 5-->
+<div class="abouts" id="">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-12">	
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-12 desc">
+				<h3>
+					LE VEHICULE
+				</h3>
+				<p>
+					Etat du véhicule : un état descriptif du véhicule est joint à votre contrat.
+					Vous vous engagerez à y consigner par écrit, avant votre départ, toute défectuosité
+					apparente qui n’y figurerait pas. A défaut, nous sommes réputés avoir délivré
+					un véhicule conforme à l’état descriptif. Nous ne pourrons malheureusement
+					pas tenir compte de réclamations concernant des dégâts apparents qui n’auront pas
+					été signalés au moment du départ. Vous devez rendre le véhicule dans l’état
+					où vous l’avez reçu. Tout frais de remise en état, consécutifs à une faute du locataire
+					ou en l’absence de faute d’un tiers, viendront en surcharge du coût de la location,
+					sous réserve des stipulations de la section « garanties contractuelles optionnelles ».
+					Usage du véhicule : Conformément au principe de personnalité des peines,
+					vous êtes responsable des infractions commises pendant la durée de la location.
+					Ainsi, vous êtes informés que vos coordonnées pourrint êtres communiquées
+					aux autorités de police qui en feraient demande. Vous vous engagez à utiliser
+					le véhicule en « bon père de famille » et notamment, sans être sous influence
+					éthylique ou narcotique ou de toute substance susceptible d’affecter la conduite
+					conformément aux dispositions du code de la route et l’utiliser conformément à sa
+					destination, ce qui, pour un véhicule particulier, est principalement celle
+					du transport de personnes à titre gratuit. Dans le cas où les conditions d’utilisation
+					du véhicule loué relèvent d’une réglementation spécifique, vous êtes responsable
+					du respect de cette réglementation tout au long du contrat. De plus, toute infraction
+					à cette réglementation oblige le locataire à indemniser le loueur de tout préjudice
+					que ce dernier pourrait subir. Nous attirons tout particulièrement votre attention
+					sur les dimensions du véhicule qui oblige à une attention accrue lors de certaines
+					manoeuvre si vous ajouter des bagages ou autres sur le véhicule devant ou
+					derrière (marche arrière par exemple) et peuvent rendre impossible
+					le franchissement de certaines infrastructures routières (tunnels, pont, etc.). 
+					En cas de mauvaise appréciation du gabarit du véhicule, les chocs hauts de caisse 
+					et sous caisse ne sont pas couverts par la garantie dommages sauf prouver le cas
+					de force majeure.
+					Vous ne devez pas vous servir du véhicule loué notamment : Pour être reloué, 
+					Pour le transport de personnes à titre onéreux, Pour le transport d’un nombre 
+					de personnes supérieur à celui mentionné sur al carte grise du véhicule, 
+					Pour participer à des rallyes, compétitions ou essais, quel que soit le lieu,
+					Pour donner des cours de conduite, Pour pousser ou tirer un autre véhicule 
+					(sauf véhicule équipé d’un crochet, charge maximum 1000 kg) sur des routes 
+					non carrossables ou dont la surface ou l’état d’entretien présente des risques pour 
+					les pneus ou les organes sous le véhicule ,Pour commettre une infraction 
+					intentionnelle. Les marchandises et bagages transportés dans le véhicule, 
+					y compris leur emballage ou leur arrimage, ne doivent ni détériorer le véhicule, 
+					ni faire courir de risques anormaux à ses occupants.
+					Quand vous stationnez le véhicule, même pour un arrêt de courte durée, 
+					vous vous engagez à ferme le véhicule à clefs et à servir des dispositifs d’alarme et / 
+					ou d’antivol dont le véhicule st équipé. Vous ne devez jamais laisser la voiture 
+					inoccupée avec les clefs sur le contact. L’absence de restitution des clés entraînera 
+					la déchéance de garantie de vol. En cas de dommage ou de vol, vous devez 
+					transmettre au loueur, dans un délai n’excédant pas 3 jours le constat amiable 
+					d’accident ou le récépissé de déclaration de vol remis par les autorités, ainsi que 
+					les clés et papiers du véhicule.
+					Entretien , problème mécanique du véhicule : au cours de votre location et 
+					en fonction du nombre de kilomètres parcourus, vous aurez à effectuer 
+					les contrôles d’usage (niveau d’huile moteur au delà de 1000 km, 
+					pression des pneus, etc.), conformément à un usage de « bon père de famille ». 
+					A ce titre, le locataire restera vigilant à tout signal émis par les voyants d’alerte 
+					apparaissant sur le tableau de bord du véhicule, le cas échéant, et prendra toutes 
+					les mesures conservatoires nécessaires, s’il y a lieu, telle que l’arrêt d’urgence. 
+					Le véhicule vous est fourni avec des pneumatiques dont l’état et le nombre sont 
+					conformes à la réglementation routière. En cas de détérioration de l’un d’entre eux 
+					pour une cause autre que l’usure normale, vice caché ou cas de force majeure, 
+					vos vous engagez à le remplacer immédiatement et à vos frais par un pneumatique 
+					de même dimension, même type, même marque, et d’usure égale. En cas de panne 
+					mécanique ou d’accident, vous bénéficiez d’un service assistance, inclus dans le prix 
+					de la location. Les conditions de cette assistance vous sont exposés dans 
+					la plaquette « assurance » mise à votre disposition avec le véhicule. 
+					Toute transformation ou intervention mécanique sur le véhicule est interdite 
+					sans autorisation préalable du loueur.
+				</p>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- section 6 -->
+<div class="abouts" id="apropos">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-12">	
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-12 desc">
+				<h3>
+					DUREE DE LA LOCATION
+				</h3>
+				<p>
+					La durée d’un contrat de location est de 30 jours maximum. Le locataire s’engage
+				à restituer le véhicule au loueur à la date prévue au contrat de location soumis 
+				peine de s’exposer à des poursuites judiciaires civiles et pénales. 
+				La durée de location se calcule par tranche de 24 heures, non fractionnable, 
+				depuis l’heure de mis à disposition du véhicule, mais vous bénéficiez toutefois 
+				d’une tolérance de 29 minutes à la fin de la location avant q’une nouvelle période 
+				de 24 heures soit appliquée. Si vous souhaitez renouveler le contrat, 
+				il vous appartiendra : De vous rendre, avec le véhicule prioritairement 
+				à la SARL BELLE ILE , D’effectuer un contrôle du véhicule avec l’agent 
+				SARL BELLE ILE, De régler le loyer et charges complémentaires à la fermeture 
+				du contrat échu, Et de signer un nouveau contrat.
+				Le renouvellement d’un contrat mensuel est strictement soumis aux stipulations 
+				qui précédent. De plus, le non respect par le locataire de ces stipulations pour 
+				les locations mensuelles le rendra automatiquement redevable vis à vis du loueur 
+				d’une astreinte conventionnelle de 50 euros TTC par jour de conservation 
+				du véhicule au delà de la date d’échéance du contrat , en plus du coût de la location 
+				et sans préjudice, pour le loueur, de toute action civile et/ou pénale qui lui serait 
+				ouverte sur le fonctionnement de la non restitution du véhicule.
+				La location se termine par la restitution du véhicule, de ses clés et de ses papiers 
+				chez le loueur, à un agent SARL BELLE ILE ; En aucun cas vous ne restituerez 
+				les clés à des personnes présentes sur les parkings et prétendant être agent 
+				SARL BELLE ILE. Dans l’hypothèse où le véhicule serait restitué sans ses clés, 
+				celles-ci seront facturées au locataire ainsi que, s’il y a lieu, les frais de rapatriement
+				du véhicule. Le loueur ne peut en aucune façon être tenu responsable des biens 
+				qui auraient été oubliés dans les véhicules à l’issue de la location.
+				</p>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- section 7 -->
+<section class="cc-carousel merriweather bg-dark text-light text-center py-5" id="map">
+	<div class="container">
+	  <div class="row">
+		<h1 class="text-uppercase">Localiser les agences les plus proches de vous</h1>
+		<div class="col pb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+		   Incidunt maxime facere aut suscipit,
+		   tenetur, perspiciatis velit aliquam dicta aperiam quasi quia soluta dolorum commodi fuga!
+			Debitis temporibus sit sed quae.
+			<button type="button" class="btn bg-white" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@getbootstrap">Ajouter position</button>
+		</div>
+		<!-- Modal map -->
+		<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h5 class="modal-title text-black" id="exampleModalLabel">Localisation</h5>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+				  <form>
+					{% csrf_token %}
+					<div class="mb-3">
+					  <i class="far fa-dot-circle"></i> <label for="from" class="col-form-label text-black"> Origine:</label>
+					  <input type="text" id="from" class="form-control">
+					</div>
+					<div class="mb-3">
+					  <i class="fas fa-map-marker-alt"></i> <label for="to" class="col-form-label text-black"> Destination:</label>
+					  <input type="text" id="to" class="form-control">
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					  <button type="submit" class="btn btn-primary">Voir <i class="fas fa-directions"></i></button>
+					</div>
+				  </form>
+				</div> 
+			  </div>
+			</div>
+		  </div>
+	  </div>
+	  <div class="container-fluid mt--6">
+		<div class="row">
+		  <div class="col">
+			<div class="card border-0">
+			  <div id="googleMap" style="height: 600px;">
+			  </div>
+			  <div class="output">
+  
+			  </div>
+			</div>
+		  </div>
+		</div>	
+	  </div>
+	</div>
+  </section>
+{% include 'base/footer.html' %}
+
+{% endblock %}    

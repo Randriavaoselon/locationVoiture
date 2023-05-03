@@ -1,0 +1,48 @@
+{% extends "client/loueur/layouts/base.html" %}
+{% block title %} Compte principale de {{user.first_name}} {% endblock title%}
+
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+
+{% include 'client/loueur/includes/sidenav.html' %}
+
+
+<div class="main-content" id="panel">
+    {% include "client/loueur/includes/navigation.html" %}
+
+    <section class="banner d-flex justify-content-center align-items-center pt-5">
+        <div class="container my-5 py-5">
+           <div class="row">
+              <div class="col-md-6">
+                 
+                <div class="card" style="height: 16rem;" > 
+                 <div class="modal-body">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Suppression</h5>
+                           <a class="btn-close" href="{% url 'home_loueur' %}"></a>
+                     </div> 
+                   <form action="{% url 'supprime' loc.id %}" method="POST">
+                     {% csrf_token %}
+                     <p class="text-center">Etes vous sur de supprimer "<strong>{{loc.nom_Client}}</strong>" definitive</p>   
+                    
+                     <div class="modal-footer mt-5">
+                        <a class="btn btn-secondary" href="{% url 'home_loueur' %}">Fermer</a>
+                        <button type="submit" class="btn btn-primary">Supprimer</button>
+                      </div>
+                   </form>
+                 </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                 <h1 class="text-capitalize py-3 redressed banner-desc">
+                  Vous allez supprimer un de votre client, soyez sur avant de contunier le processuce!!
+                 </h1>
+                 <p>
+                   <!-- <a class="btn btn-order btn-lg me-5 rounded-0 merriweather" href="">Réserver maintenant</a>      -->
+                 </p>
+              </div>
+           </div>
+        </div>
+     </section>
+</div>{% include "client/loueur/includes/footer.html" %}
+{% endblock %}

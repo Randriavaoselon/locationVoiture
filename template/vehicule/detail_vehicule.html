@@ -1,0 +1,177 @@
+{% extends "base/base.html" %}
+{% block title %} Information de vehicule {% endblock title%}
+{% load static %}
+{% block content %}
+   
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+        *{
+        font-family: 'Montserrat', sans-serif;
+        }   
+
+        
+
+      body{
+         font-family: 'Poppin', sans-serif;
+         background-image: url('../../static/images/vt1.webp');
+         background-repeat: no-repeat;
+         background-size: 100%;
+         background-attachment: fixed;
+      }
+
+      .btn-file{
+         position: relative;
+         overflow: hidden;
+      }
+      .btn-file input[type=file]{
+         position: absolute;
+         top: 0;
+         right: 0;
+         min-width: 100%;
+         min-height: 100%;
+         font-size: 100px;
+         text-align: right;
+         filter: alpha(opacity=0);
+         opacity: 0;
+         background: white;
+         outline: none;
+         cursor: pointer;
+         display: block;
+      }
+    </style>
+
+    <div class="container-fuild" style="margin-top: 30px;">
+       <div class="row">
+         <div class="col-md-10 offset-md-1">
+            <div class="card" style="border-color: blue;">
+               <div class="card-header bg-info text-white">
+                  <h><b>Informations complet</b></h>
+               </div>
+               <div class="card-body" style="background-color: transparent;">
+                  <form action="" method="POST" url="/upload-picture" enctype="multipart/form-data" role="form">
+                     {% csrf_token %}
+                     <div class="row">
+                        <div class="col-md-8">
+                           <div class="row">
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="nom_client">Type de véhicule</label>
+                                    <input type="text" class="form-control" value="{{vehi.type_vehicule}}" id="nom_client" readonly>
+
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="prenom_client">Marque de véhicule</label>
+                                    <input type="text" class="form-control" value="{{vehi.marque_vehicule}}" id="nom_client" readonly>
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="Imm">Numéro Immatricule:</label>
+                                    <input type="text" value="{{vehi.numImm}}" class="form-control" id="Imm" readonly>
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="numSerie">Numéro de Série:</label>
+                                    <input type="text" class="form-control" value="{{vehi.numSerie}}" id="numSerie" readonly>
+
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="kilometrage">Kilometrage:</label>
+                                    <input type="text" class="form-control" value="{{vehi.kilometrage}}" id="kilometrage" readonly>
+
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="dt_circuit">Date mise en circuit:</label>
+                                    <input type="date" class="form-control" value="{{vehi.dateMiseEnCirc|date:'Y-m-d'}}" id="dt_circuit" readonly>
+
+                                 </div>
+                              </div>
+
+                              <!-- <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="prixKm">Prix/Km:</label>
+                                    <input type="number" value="{{vehi.prixKm}}" class="form-control" id="prixKm" readonly>
+
+                                 </div>
+                              </div> -->
+
+                              <div class="md-3">
+                                 <div class="form-group">
+                                    <label for="prixJr">Prix journalier:</label>
+                                    <input type="number" value="{{vehi.prixJ}}" class="form-control" id="prixJr" readonly>
+                                    <span id="available"></span>
+                                 </div>
+                              </div>
+
+                           </div>
+                        </div>
+                        <!-- display image -->
+                        <div class="col-md-4">
+                           <div class="row">
+                              <div class="col-md-12" id="selectedBanner">
+                                 <div class="text-align: center;">
+                                    <img id="img-upload">
+                                    <div >
+                                       <img src="{{vehi.img.url}}" id="image" alt="" width="350px" height="300px">
+                                    </div>
+                                 </div> 
+                              </div>
+                              <!-- Departement -->
+                              <div class="col-md-12">
+                                 <div class="form-group">
+
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                         <!-- Boutton -->
+                         <div class="modal-footer" style="text-align: center;">
+                           <a class="btn btn-order mx-2 py-2" style="width: 100px; border-radius: 10px;" href="{% url 'liste' %}">Retour</a>
+                             &nbsp;&nbsp;
+                         </div>
+
+                     </div>
+                  </form>
+               </div>
+            </div>
+            <br><br>
+         </div>
+       </div>
+    </div>
+
+  <script type="text/javascript" >
+    // L'image img#image
+    var image = document.getElementById("image");
+     
+    // La fonction previewPicture
+    var previewPicture  = function (e) {
+
+        // e.files contient un objet FileList
+        const [picture] = e.files
+
+        // "picture" est un objet File
+        if (picture) {
+            // On change l'URL de l'image
+            image.src = URL.createObjectURL(picture)
+        }
+    } 
+  </script>
+
+{% endblock %}
+

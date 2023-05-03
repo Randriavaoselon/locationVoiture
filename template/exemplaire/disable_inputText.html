@@ -1,0 +1,27 @@
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("input[name='chkPassPort']").click(function () {
+            if ($("#chkYes").is(":checked")) {
+                $("#txtPassportNumber").removeAttr("disabled");
+                $("#txtPassportNumber").focus();
+            } else {
+                $("#txtPassportNumber").attr("disabled", "disabled");
+            }
+        });
+    });
+</script>
+<span>Do you have Passport?</span>
+<label for="chkYes">
+    <input type="radio" id="chkYes" name="chkPassPort" />
+    Yes
+</label>
+<label for="chkNo">
+    <input type="radio" id="chkNo" name="chkPassPort" />
+    No
+</label>
+<hr />
+Passport Number:
+<input type="text" id="txtPassportNumber" disabled="disabled" />
+<button >Envoyer</button>

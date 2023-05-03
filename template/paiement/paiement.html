@@ -1,0 +1,142 @@
+{% extends "base/base.html" %}
+{% block title %} Orange money paiement {% endblock title%}
+{% load static %}
+{% block content %}
+<style>
+    /*bootstrap VS:5*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+*{
+font-family: 'Montserrat', sans-serif;
+}
+
+.redressed {
+font-family: Arial, Helvetica, sans-serif, cursive ;
+}
+
+.merriweather {
+font-family: Arial, Helvetica, sans-serif, serif;
+}
+
+.cc-navbar {
+background-color: rgba(0, 0, 0, 0.975);
+font-family: Arial, Helvetica, sans-serif;
+box-shadow: 1px 1px 3px rgba(255, 255, 255, 0.54);
+z-index: 99;
+}
+
+.cc-navbar .nav-link {
+border-bottom: 1px solid transparent;
+transition: padding-bottom .4s ease-in-out, border-color .3s ease;
+}
+
+.cc-navbar .nav-link:hover{
+padding-bottom: 20px;
+border-bottom-color: var(--bs-teal);
+}
+
+.banner,
+.order-form {
+background: linear-gradient(rgb(250, 249, 249), rgb(255, 253, 253)), url('') center center fixed no-repeat;
+background-size: cover;
+height: 800px;
+}
+
+.order-form {
+height: 500px;
+}
+
+.banner .banner-desc {
+font-size: 48px;
+font-weight: 400;
+color: #fff;
+}
+
+.cc-menu {
+background: linear-gradient(rgb(250, 249, 249), rgb(255, 253, 253)), url('') center center fixed no-repeat;
+background-size: cover;
+height: 1200px;
+}
+
+.btn-order {
+color: rgb(11, 10, 10);
+border-color: rgb(16, 13, 12);
+transition: 0.5s;
+}
+.btn-order:hover,
+.btn-order:active {
+color: #fff;
+background-color: rgb(244, 79, 19);
+}
+
+</style>
+
+<div class="container-fuild mt-4">
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+         <div class="card" style="border-color: rgb(255, 123, 0);">
+            <div class="card-header text-white" style="background-color: rgb(13, 13, 12);">
+               <h><b> <img src="../../static/images/leftLogo.png" alt="" style="width: 5rem;"></b></h>
+               <h><b><img src="../../static/images/rightLogo.png" alt="" style="width: 3rem; margin-left: 59rem;"></b></h>
+            </div>
+            <div class="card-body" style="background-color: #ffffff;">
+               <form action="" method="POST" enctype="multipart/form-data" role="form">
+                    {% csrf_token %}
+                  <div class="row">
+                      
+                     <div class="col-md-6">
+                        <label for="type_vehic">Numero location</label>
+                        <div class="form-group">
+                           <input type="text" class="form-control bg-white" value="{{locations.id}}" name="id_loc" id="mont" readonly>
+                           <span id="available"></span>
+                        </div>
+                     </div>
+                     
+                     <div class="col-md-6">    
+                        <label for="type_vehic">Votre nom</label>
+                        <div class="form-group">
+                           <input type="text" class="form-control bg-white" value="{{locations.nom_Client}}" name="" id="mont" readonly>
+                           <span id="available"></span>
+                        </div>
+                     </div>
+                     
+                     <div class="col-md-6">
+                        <label for="nom_loueur">Nom du compte loueur</label>
+                           <select class="form-control" name="loueurUser" id="nom_loueur">
+                               <option value="">Choisir la meme nom que précedent....</option>
+                               {% for clientLoueur in client_Loueur %}
+                               <option value="{{ clientLoueur.id }}">{{ clientLoueur.user }}</option>
+                               {% endfor %}
+                           </select>
+                     </div>
+                     
+                     <div class="col-md-6">
+                         <label for="date_pay">Date de paiement</label>
+                         <input type="date" class="form-control" name="date_pay" id="date_pay" required="">
+                         <span id="available"></span>  
+                     </div>
+
+                     <div class="col-md-6">
+                         <label for="phone">Numero téléphone</label>
+                         <input type="number" class="form-control" name="num_compte" id="phone" required="">  
+                     </div>
+
+                     <div class="col-md-6">
+                         <label for="mont">Montants</label>
+                         <input type="number" class="form-control" step="0.1" min="1000" name="total" placeholder="minimum 1000 €" id="mont" required="">    
+                     </div>
+                     <div class="modal-footer">
+                        <a class="btn btn-order btn-lg me-5 rounded-0 merriweather"  href="{% url 'a_inscription' %}">Quitter</a>
+                         &nbsp;&nbsp;
+                        <input type="submit" id="btn" name="" value="Envoyer" class="btn btn-order btn-lg me-5 rounded-0 merriweather" style="width: 100px; border-radius: 10px;">
+                         &nbsp;&nbsp;
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+         <br><br>
+      </div>
+    </div>
+ </div>
+{% endblock %}

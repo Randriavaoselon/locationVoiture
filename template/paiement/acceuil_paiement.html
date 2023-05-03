@@ -1,0 +1,186 @@
+{% extends "base/base.html" %}
+{% block title %} Acceuil paiement {% endblock title%}
+{% load static %}
+{% block content %}
+<style>
+    /*bootstrap VS:5*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+*{
+font-family: 'Montserrat', sans-serif;
+}
+
+.redressed {
+font-family: Arial, Helvetica, sans-serif, cursive ;
+}
+
+.merriweather {
+font-family: Arial, Helvetica, sans-serif, serif;
+}
+
+.cc-navbar {
+background-color: rgba(0, 0, 0, 0.975);
+font-family: Arial, Helvetica, sans-serif;
+box-shadow: 1px 1px 3px rgba(255, 255, 255, 0.54);
+z-index: 99;
+}
+
+.cc-navbar .nav-link {
+border-bottom: 1px solid transparent;
+transition: padding-bottom .4s ease-in-out, border-color .3s ease;
+}
+
+.cc-navbar .nav-link:hover{
+padding-bottom: 20px;
+border-bottom-color: var(--bs-teal);
+}
+
+.banner,
+.order-form {
+background: linear-gradient(rgb(250, 249, 249), rgb(255, 253, 253)), url('') center center fixed no-repeat;
+background-size: cover;
+height: 800px;
+}
+
+.order-form {
+height: 500px;
+}
+
+.banner .banner-desc {
+font-size: 48px;
+font-weight: 400;
+color: #fff;
+}
+
+.cc-menu {
+background: linear-gradient(rgb(250, 249, 249), rgb(255, 253, 253)), url('') center center fixed no-repeat;
+background-size: cover;
+height: 1200px;
+}
+
+.btn-order {
+color: orangered;
+border-color: orangered;
+transition: 0.5s;
+}
+.btn-order:hover,
+.btn-order:active {
+color: #fff;
+background-color: orangered;
+}
+
+</style>
+{% include 'paiement/navbar_pay.html' %}
+<section class="banner d-flex justify-content-center align-items-center pt-5">
+    <div class="container my-5 py-5">
+       <div class="row">
+          <div class="col-md-6"></div>
+          <div class="col-md-6">
+             <h1 class="text-capitalize py-3 redressed banner-desc text-black">
+               Bienvenues dans le paiement orange Money.Votre argent sera bien sécuriser.
+             </h1>
+             <p>
+                 <a class="btn btn-order btn-lg me-5 rounded-0 merriweather" href="">Revenir </a>
+                 <!-- <a class="btn btn-order btn-lg me-5 rounded-0 merriweather" href="" style="margin-right: 5rem;">Commencer</a> -->
+                 <button type="button" class="btn btn-order btn-lg me-5 rounded-0 merriweather" style="margin-right: 5rem;" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@getbootstrap">Commencer</button>
+                </p>
+              
+          </div>
+       </div>
+    </div>
+<!-- modal form2 -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: orange;">
+        <h5 class="modal-title" id="exampleModalLabel" style="color: white;"><img src="{% static 'images/orange.png' %}" style="width: 55px; border-radius: 12px;" alt=""> Web Paiement avec Orange Money </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+    <div class="modal-body">
+      <form action="" method="get">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="recipient-agence" class="col-form-label">Réchercher nom client :</label>
+          <input  name="q" class="form-control" type="search" id="recipient-agence" placeholder="rechercher ici..." />
+          <button>Rechercher</button>
+        </div>
+      </form>
+      <div class="table-responsive" style="height: 10rem;">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+          <tr>
+            <th>Nom Client</th>
+            <th>Location</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for locationvt in loc_pay %}
+            <tr>
+                     <th scope="col">{{ locationvt.nom_Client }}</th>
+                     <th scope="col" style="text-align: center;">{{ locationvt.id }}</th>
+                     <th scope="col">
+                       <a class="btn btn-success btn-lg me-2 rounded-0 merriweather" href="{% url 'paiement' pk=locationvt.id %}">Contunier</a>
+                     </th>
+             </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        </div>
+     </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Retour</button>
+    </div>
+    </div>
+  </div>
+  </div>
+<!--    modal form-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: orange;">
+            <h5 class="modal-title" id="exampleModalLabel" style="color: white;"><img src="{% static 'images/orange.png' %}" style="width: 55px; border-radius: 12px;" alt=""> Web Paiement avec Orange Money </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action=""  method="POST" enctype="multipart/form-data" role="form">
+                 {% csrf_token %}
+
+                <div class="mb-3">
+                  <label for="date" class="col-form-label">Date de paiement:</label>
+                  <div class="form-group">
+                     <input type="date" class="form-control" name="date_pay" id="date"/>
+                  </div>
+               </div>    
+              <div class="mb-3">
+               <label for="nomclient">Nom de client</label>
+               <select class="form-control" name="nom_client" id="nomclient">
+                   <option value="">--------Choisir votre nom-------</option>
+                   {% for client in client %}
+                     <option value="{{client.id_client}}">{{client.nom}}</option>
+                   {% endfor %}
+               </select>
+              </div>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Entrer le numéro de compte: 255 255 255 255</label>
+                <input type="number" name="num_compte" class="form-control" id="recipient-compte">
+              </div>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Entrer les montants:</label>
+                <input type="number" name="montants" class="form-control" id="recipient-name">
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn" style="background-color: orange; color: white;">Envoyer</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+ </section>    
+
+{% endblock %}

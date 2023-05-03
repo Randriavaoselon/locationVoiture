@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi-page</title>
+    <style>
+      main{
+        width: 80%;
+        border: 1px solid lightgrey;
+        padding: 20px;
+        border-radius: 5px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); 
+      }
+      input{
+        display: block;
+        width: 100%;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border: 1px solid lightgrey;
+        border-radius: 5px;
+      }
+      .page{
+        display: none;
+      }
+
+      header{
+        display: flex;
+        justify-content: space-between;
+      }
+      .page-num{
+        border: 1px solid blue;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        padding: 10px;
+      }
+      .active{
+        color: white;
+        background-color: blue;
+      }
+    </style>
+</head>
+<body>
+   <main>
+      <header class="head">
+      </header>
+
+      <form action="">
+        <div class="page" id="page1">
+          <h1>Identité</h1>
+          <div class="">
+              <label for="nom">Nom :</label>
+              <input type="text" name="" id="nom">
+           </div>
+           <div class="">
+            <label for="prenom">Prénom :</label>
+            <input type="text" name="" id="prenom">
+           </div>
+           <button class="next" type="button">Suivant</button>
+        </div>
+        <div class="page" id="page2">
+          <h1>Information</h1>
+           <div class="">
+              <label for="adresse">Adresse :</label>
+              <input type="text" name="" id="adresse">
+           </div>
+           <div class="">
+            <label for="cp">Code postal :</label>
+            <input type="text" name="" id="cp">
+           </div>
+           <div class="">
+            <label for="ville">Ville :</label>
+            <input type="text" name="" id="ville">
+           </div>
+           <button class="prev" type="button">Précedent</button>
+           <button class="next" type="button">Suivant</button>
+        </div>
+        <div class="page" id="page3">
+          <h1>Identifiants</h1>
+          <div class="">
+              <label for="email">Email :</label>
+              <input type="email" name="" id="email">
+           </div>
+           <div class="">
+            <label for="pass">Mot de pass :</label>
+            <input type="password" name="" id="pass">
+           </div>
+           <button class="prev" type="button">Précedent</button>
+           <button >Términer</button>
+        </div>
+      </form>
+   </main>
+
+   <script>
+      //on va chercher les differents élements de notre page
+      const pages = document.querySelectorAll(".page")
+      const header = document.querySelector(".head")
+      const nbPages = pages.length //nombre des pages du formulaire
+      let pageActive = 1
+
+      //on attend le chargement de la page
+      window.onload = () =>{
+        //on affiche la 1er page du formulaire
+        document.querySelector(".page").style.display = "initial"
+
+        //afficher les numéro de page dans l'entete
+        //on parcours la liste des pages
+        pages.forEach((page, index) =>  {
+          //on crée l'élement "numero de page"
+          let element = document.createElement("div")
+          element.classList.add("page-num")
+          element.id = "num" + (index + 1)
+          if(pageActive === index + 1){
+            element.classList.add("active")
+          }
+          element.innerHTML = index + 1
+          header.appendChild(element)
+
+        })
+
+        //On gere les bouton "suivant"
+        let boutons = document.querySelectorAll(".next")
+        for(let bouton of boutons){
+          bouton.addEventListener("click", pageSuivante)
+        }
+
+        //On gere les bouton "precedente"
+        boutons = document.querySelectorAll(".prev")
+        for(let bouton of boutons){
+          bouton.addEventListener("click", pagePrecedente)
+        }
+      }
+      /*
+        Cette fonction fait avancer le formulaire d'une page
+      */
+     function pageSuivante(){
+     
+      //on masque toute les pages
+      for(let page of pages){
+        page.style.display = "none"
+      }
+
+      //on affiche la page suivante
+      this.parentElement.nextElementSibling.style.display = "initial"
+
+      //on "desactive" tous la pages active 
+      document.querySelector(".active").classList.remove("active")
+      
+       //on incremente page active
+       pageActive++
+      
+       //on active le nouveau numéro
+       document.querySelector("#num"+pageActive).classList.add("active")
+     }
+
+     /*
+        Cette fonction fait reculer le formulaire d'une page
+      */
+      function pagePrecedente(){
+     
+     //on masque toute les pages
+     for(let page of pages){
+       page.style.display = "none"
+     }
+
+     //on affiche la page suivante
+     this.parentElement.previousElementSibling.style.display = "initial"
+
+     //on "desactive" tous la pages active 
+     document.querySelector(".active").classList.remove("active")
+     
+      //on incremente page active
+      pageActive--
+     
+      //on active le nouveau numéro
+      document.querySelector("#num"+pageActive).classList.add("active")
+    }
+   </script>
+</body>
+</html>

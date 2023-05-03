@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+    <head>
+        <title>TESTE DROPDOWN</title>
+        <!-- Dropdown -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Dropdown  -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../../static/teste_js/semantic.js" defer></script> 
+    <script src="../../static/teste_js/main.js" defer></script>   
+    <style>
+        .mt-5{
+            margin-top: 5px !important;
+        }
+    </style>
+
+    
+    </head>
+    <body>
+        <div id="alert-box"></div>
+        <form action="" class="mt-5" id="car-form">
+            {% csrf_token %}
+            <!-- <div class="ui selection dropdown" id="cars">
+                <input type="hidden" name="car">
+                <i class="dropdown icon"></i>
+                <div class="default text">Choisir une voiture</div>
+                <div class="menu" id="cars-data-box">
+                 
+                </div>
+            </div>
+
+            <div class="ui selection dropdown" id="models">
+                <input type="hidden" name="model">
+                <i class="dropdown icon"></i>
+                <div class="default text" id="model-text">Choisir model</div>
+                <div class="menu" id="model-data-box">
+                 
+                </div>
+            </div> -->
+
+            <div class="ui selection dropdown" id="cars">
+                <input type="hidden" name="loueur">
+                <i class="dropdown icon"></i>
+                <div class="default text">Choisir un Loueur</div>
+                <div class="menu" id="cars-data-box">
+                 
+                </div>
+            </div>
+
+            <div class="ui selection dropdown" id="models">
+                <input type="hidden" name="nom_Agence">
+                <i class="dropdown icon"></i>
+                <div class="default text" id="model-text">Choisir Agence</div>
+                <div class="menu" id="model-data-box">
+                 
+                </div>
+            </div>
+            
+            <div id="btn-box" class="mt-5">
+                <button type="submit" class="ui primary button">Save</button>
+            </div>
+        </form>
+
+    </body>
+
+</html>

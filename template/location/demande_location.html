@@ -1,0 +1,339 @@
+{% extends "base/base.html" %}
+{% block title %} Demande location {% endblock title%}
+{% load static %}
+{% block content %}
+   
+    <style>
+      body{
+         font-family: 'Poppin', sans-serif;
+         background-image: url('../../static/images/vt1.webp');
+         background-repeat: no-repeat;
+         background-size: 100%;
+         background-attachment: fixed;
+      }
+
+      .page{
+        display: none;
+      }
+
+      .card-header{
+        display: flex;
+        justify-content: space-between;
+      }
+      .page-num{
+        border: 1px solid blue;
+        border-radius: 100%;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        padding: 10px;
+      }
+      .active{
+        color: white;
+        background-color: blue;
+      }
+
+    </style>
+    
+    <div class="container-fuild" style="margin-top: 30px;">
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+           <div class="card" style="border-color: blue;">
+              <div class="card-header" style="background-color: rgb(186, 182, 182);">
+  
+               </div>
+               <div class="card-body" style="background-color: #e9ecef;">
+                  <form action="" method="POST" url="/upload-picture" enctype="multipart/form-data" role="form">
+                      {% csrf_token %}
+                      <div class="page" id="page1">
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="nomLoueur">Nom de loueur: <strong>{{agenInfo.username}}</strong></label>
+                                    <select class="form-control" name="loueur" id="nomLoueur">
+                                       <option value="">Mettez nom loueur ici...</option>
+                                       {% for loueur in loueur %}
+                                         <option value="{{loueur.id}}">{{loueur.user}}</option>
+                                       {% endfor %}   
+                                    </select>
+                                 </div>
+                               </div>
+                               <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="nomagence">Nom de l'agence</label>
+                                    <select class="form-control" name="nom_Agence" id="type_loc">
+                                       <option value="{{agenInfo.id}}">{{agenInfo.nom_agence}}</option>
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="nomclient">Nom de client</label>
+                                    <select class="form-control" name="nom_Client" id="nomclient">
+                                        <option value="">Choisir votre nom</option>
+                                        {% for client in clients %}
+                                          <option value="{{client.id}}">{{client.nom}}</option>
+                                        {% endfor %}
+                                    </select>
+                                 </div>
+                              </div>
+ 
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="nb_jour">Durée</label>
+                                    <input type="text" class="form-control" name="" id="nb_jour" placeholder="exemple: 30 jours" required="">
+                                 </div>
+                              </div>
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="type_loc">Type de location</label>
+                                    <select class="form-control" name="type_loc" id="type_loc">
+                                       <option value="courte duree">Location courte duré</option>
+                                       <option value="longue duree">Location longue duré</option>
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="dt_demande">Date de demande</label>
+                                     <input type="date" class="form-control" name="dt_demande" id="dt_demande">
+                                  </div>
+                               </div>
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="dt_debut">Date debut location </label>
+                                     <input type="date" class="form-control" name="" id="dt_debut">
+                                  </div>
+                               </div>
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="dt_fin">Date fin location </label>
+                                     <input type="date" class="form-control" name="" id="dt_fin">
+                                  </div>
+                               </div>
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                  </div>
+                               </div>
+                          </div>
+                            <a class="btn btn-success" style="height: 40px; width: 100px; text-align: center; border-radius: 30px;" href="{% url 'a_demande_loc' %}">Quitter</a>
+                            <button class="next btn-primary" style="height: 40px; width: 100px; text-align: center; border-radius: 30px;" type="button">Suivant</button>
+                      </div>
+  
+                      <div class="page" id="page2">
+                          <div class="row">
+                              <div class="col-md-6" id="desactivation">
+                                  <fieldset class="form-group">
+                                      <p>Choix d'autre conducteur</p>
+  
+                                      <div class="form-check-inline">
+                                         <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" id="oui" name="autre_cond" value="Oui">J'ai
+                                         </label>
+                                      </div>
+                                      <div class="form-check-inline">
+                                         <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" id="non" name="autre_cond" value="Non">Je n'ai pas
+                                         </label>
+                                      </div>
+                                   </fieldset>
+                              </div>
+  
+                              <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="autre_cond">Nom d'autre conducteur</label>
+                                     <input type="text" class="form-control" name="nom_autre" id="autre_cond" disabled="disabled">
+                                  </div>
+                               </div>
+  
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="autre_email">Email d'autre conducteur</label>
+                                     <input type="email" class="form-control" name="email_autre" id="autre_email" disabled="disabled">
+  
+                                  </div>
+                               </div>
+  
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="cin_autre">Cin d'autre conducteur</label>
+                                     <input type="number" class="form-control" name="cin_autre" id="cin_autre" disabled="disabled">
+  
+                                  </div>
+                               </div>
+  
+                               <div class="col-md-6">
+                                  <div class="form-group">
+                                     <label for="autre_permis">Permis de conduire</label>
+                                     <input type="number" class="form-control" name="permis_autre" id="autre_permis" disabled="disabled">
+  
+                                  </div>
+                               </div>
+  
+                               <div class="col-md-6">
+                                   <div class="form-group">
+                                      <label for="autre_adresse">Adresse d'autre conducteur</label>
+                                      <input type="text" class="form-control" name="adresse_autre" id="autre_adresse" disabled="disabled">
+                                      <span id="available"></span>
+                                   </div>
+                               </div>
+                               <div class="col-md-6">
+                                 <div class="form-group">
+                                   <label for="message-text" class="col-form-label">Motif de deplacement:</label>
+                                   <textarea class="form-control" name="motif" id="message-text"></textarea>
+                                </div>
+                              </div>
+ 
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                   <label for="desti">Déstination</label>
+                                   <input type="text" class="form-control" name="destination" id="desti" required="">
+                                 </div>
+                              </div>
+                          </div>
+                            
+                            <button class="prev" style="background-color: gray; color:#e9ecef; height: 40px; width: 100px; text-align: center; border-radius: 30px;" type="button">Précedent</button>
+                            <input type="submit" class="btn-primary" id="btns" style="height: 40px; width: 100px; text-align: center; border-radius: 30px;"/>
+                      </div>
+                  </form>
+               </div>
+           </div>
+          </div>
+      </div>
+    </div>
+  
+  <script>
+      //on va chercher les differents élements de notre page
+      const pages = document.querySelectorAll(".page")
+        const header = document.querySelector(".card-header")
+        const nbPages = pages.length //nombre des pages du formulaire
+  
+        let pageActive = 1
+  
+        //on attend le chargement de la page
+        window.onload = () =>{
+          //on affiche la 1er page du formulaire
+          document.querySelector(".page").style.display = "initial"
+  
+          //afficher les numéro de page dans l'entete
+          //on parcours la liste des pages
+          pages.forEach((page, index) =>  {
+            //on crée l'élement "numero de page"
+            let element = document.createElement("div")
+            element.classList.add("page-num")
+            element.id = "num" + (index + 1)
+            if(pageActive === index + 1){
+              element.classList.add("active")
+            }
+            element.innerHTML = index + 1
+            header.appendChild(element)
+  
+          })
+  
+          //On gere les bouton "suivant"
+          let boutons = document.querySelectorAll(".next")
+          for(let bouton of boutons){
+            bouton.addEventListener("click", pageSuivante)
+          }
+  
+          //On gere les bouton "precedente"
+          boutons = document.querySelectorAll(".prev")
+          for(let bouton of boutons){
+            bouton.addEventListener("click", pagePrecedente)
+          }
+        }
+        /*
+          Cette fonction fait avancer le formulaire d'une page
+        */
+       function pageSuivante(){
+       
+        //on masque toute les pages
+        for(let page of pages){
+          page.style.display = "none"
+        }
+  
+        //on affiche la page suivante
+        this.parentElement.nextElementSibling.style.display = "initial"
+  
+        //on "desactive" tous la pages active 
+        document.querySelector(".active").classList.remove("active")
+        
+         //on incremente page active
+         pageActive++
+        
+         //on active le nouveau numéro
+         document.querySelector("#num"+pageActive).classList.add("active")
+       }
+  
+       /*
+          Cette fonction fait reculer le formulaire d'une page
+        */
+        function pagePrecedente(){
+       
+       //on masque toute les pages
+       for(let page of pages){
+         page.style.display = "none"
+       }
+  
+       //on affiche la page suivante
+       this.parentElement.previousElementSibling.style.display = "initial"
+  
+       //on "desactive" tous la pages active 
+       document.querySelector(".active").classList.remove("active")
+       
+        //on incremente page active
+        pageActive--
+       
+        //on active le nouveau numéro
+        document.querySelector("#num"+pageActive).classList.add("active")
+      }
+  </script>
+  <script type="text/javascript">
+
+   $(function () {
+         $("#desactivation").change(function () {
+            if ($("#oui").is(":checked")) {
+               $("#autre_cond").removeAttr("disabled");
+               $("#autre_cond").focus();
+               $("#autre_email").removeAttr("disabled");
+               $("#autre_email").focus();
+               $("#cin_autre").removeAttr("disabled");
+               $("#cin_autre").focus();
+               $("#autre_permis").removeAttr("disabled");
+               $("#autre_permis").focus();
+               $("#autre_adresse").removeAttr("disabled");
+               $("#autre_adresse").focus();
+
+           } else {
+               $("#autre_cond").attr("disabled", "disabled");
+               $("#autre_email").attr("disabled", "disabled");
+               $("#cin_autre").attr("disabled", "disabled");
+               $("#autre_permis").attr("disabled", "disabled");
+               $("#autre_adresse").attr("disabled", "disabled");
+           }
+         });
+      });
+/*
+      $(function () {
+         $("#autre_cond").change(function () {
+            if ($("#autre_cond").val() == "") {
+               $("#btns").attr("disabled", "disabled");
+           }else if($("#autre_email").val() == ""){
+               $("#btns").attr("disabled", "disabled");
+           }else if($("#cin_autre").val() == ""){
+               $("#btns").attr("disabled", "disabled");
+           }else if($("#autre_permis").val() == ""){
+               $("#btns").attr("disabled", "disabled");
+           }else if($("#autre_adresse").val() == ""){
+               $("#btns").attr("disabled", "disabled");
+           }
+           else {
+               $("#btns").removeAttr("disabled");
+           }
+         });
+      });   
+
+   */
+ </script>
+{% endblock %}
+

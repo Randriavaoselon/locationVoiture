@@ -1,0 +1,129 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+   <style>
+          /*bootstrap VS:5*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+*{
+font-family: 'Montserrat', sans-serif;
+}
+
+.redressed {
+font-family: Arial, Helvetica, sans-serif, cursive ;
+}
+
+.merriweather {
+font-family: Arial, Helvetica, sans-serif, serif;
+}
+
+.cc-navbar {
+background-color: rgba(0, 0, 0, 0.55);
+font-family: Arial, Helvetica, sans-serif;
+box-shadow: 1px 1px 3px rgba(255, 255, 255, 0.54);
+z-index: 99;
+}
+
+.cc-navbar .nav-link {
+border-bottom: 1px solid transparent;
+transition: padding-bottom .4s ease-in-out, border-color .3s ease;
+}
+
+.cc-navbar .nav-link:hover{
+padding-bottom: 20px;
+border-bottom-color: var(--bs-teal);
+}
+
+.banner,
+.order-form {
+background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('../../static/images/fd1.jpg') center center fixed no-repeat;
+background-size: cover;
+height: 800px;
+}
+
+.order-form {
+height: 500px;
+}
+
+.banner .banner-desc {
+font-size: 48px;
+font-weight: 400;
+color: #fff;
+}
+
+.cc-menu {
+background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url('../../static/images/fond3_fin.jpg') center center fixed no-repeat;
+background-size: cover;
+height: 1200px;
+}
+
+.btn-order {
+color: var(--bs-teal);
+border-color: var(--bs-teal);
+transition: 0.5s;
+}
+.btn-order:hover,
+.btn-order:active {
+color: #fff;
+background-color: var(--bs-teal);
+}
+   </style>
+   
+   <section class="banner d-flex justify-content-center align-items-center pt-5">
+      <div class="container my-5 py-5">
+         <div class="row" style="margin-bottom: 50px;">
+            <div class="col-md-6">
+               <h1 class="text-capitalize py-3 redressed banner-desc text-capitalize">
+                 On a biens reçu votre demande de location,veuillez confirmer votre demande!!
+               </h1>
+               <p>
+                  <a class="btn btn-order btn-lg me-5 rounded-0 merriweather" href="{% url 'a_inscription' %}">Révenir à l'acceuil principale</a>
+               </p>
+            </div>
+            <div class="col-md-6">
+               <div class="card"  style="height: 16rem; width: 26rem; margin-bottom: 20px; border-radius: 5px;">
+                  <div class="card-header" style="background-color: rgb(186, 182, 182); height: 3rem;">
+                      <h5>Confirmer votre location</h5>
+                  </div>
+                  <form action="" method="POST">
+                     {% csrf_token %}
+                     <div class="mb-3">
+                        <div class="dropdown">
+                           <button class="btn btn-secondary dropdown-toggle" style="width: 24rem; margin-top: 2rem; margin-left: 1rem;" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                           Choisissez votre nom
+                           </button>
+                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                              {% for client in client %}
+                                 <input type="checkbox" name="nom_Client" value="{{client.id_client}}" class="chkvalues2">{{client.nom}}<br>
+                              {% endfor %}
+                           </div>
+                        </div>
+                     </div>
+                     <div class="md-3">
+                        <input type="text" id="txtdisplay2"  style="width: 24rem; margin-left: 1rem;" placeholder="Votre numero de location" name="num_loc" readonly> 
+                     </div>
+
+                        <div class="modal-footer">
+                           <a class="btn btn-secondary" href="">Retour</a>
+                           <button class="btn btn-primary">Envoyer</button>
+                        </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+   </section>   
+  <script> 
+  $(document).ready(function(){  
+      $('.chkvalues2').click(function(){
+        var txt = ""
+        $('.chkvalues2:checked').each(function(){
+         txt+=$(this).val()+",";
+        })
+        txt = txt.substring(0, txt.length-1);
+        $('#txtdisplay2').val(txt)
+      });
+   });  
+
+  </script>
+{% endblock %}

@@ -1,0 +1,212 @@
+{% extends "base/base.html" %}
+{% block title %} Acceuil paiement {% endblock title%}
+{% load static %}
+{% block content %}
+<style>
+    /*bootstrap VS:5*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@700&display=swap');
+
+*{
+font-family: 'Montserrat', sans-serif;
+  
+}
+
+body{
+  font-family: 'Poppin', sans-serif;
+  background-image: url('../../static/images/vt1.webp');
+  background-repeat: no-repeat;
+  background-size: 300%;
+  background-attachment: fixed;
+ }
+.redressed {
+font-family: Arial, Helvetica, sans-serif, cursive ;
+}
+
+.merriweather {
+font-family: Arial, Helvetica, sans-serif, serif;
+}
+
+.cc-navbar {
+background-color: rgba(0, 0, 0, 0.975);
+font-family: Arial, Helvetica, sans-serif;
+box-shadow: 1px 1px 3px rgba(255, 255, 255, 0.54);
+z-index: 99;
+}
+
+.cc-navbar .nav-link {
+border-bottom: 1px solid transparent;
+transition: padding-bottom .4s ease-in-out, border-color .3s ease;
+}
+
+.cc-navbar .nav-link:hover{
+padding-bottom: 20px;
+border-bottom-color: var(--bs-teal);
+}
+
+
+
+.btn-order {
+color: rgb(253, 252, 252);
+border-color: rgb(0, 89, 255);
+transition: 0.5s;
+}
+.btn-order:hover,
+.btn-order:active {
+color: #fff;
+background-color: rgb(0, 30, 255);
+}
+
+
+</style>
+{% include 'paiement/navbar_pay.html' %}
+<section class="banner d-flex justify-content-center align-items-center pt-5">
+    <div class="container my-5 py-5">
+       <div class="row">
+        
+          <div class="col-md-6">
+            <div class="card" style="width: 28rem; height: 20rem;">
+              <form action="" method="get">
+                <input type="search" name="search" placeholder="Chercher votre nom" style="border-radius: 20px; height: 3rem;text-align: center; margin-top: 2rem; margin-left: 1rem; width: 25rem;">
+              </form>  
+             {% for paiement in paiement %}
+                <h1 style="text-align: center; margin-top: 30px;">{{paiement.total}}$</h1>
+             {% endfor %} 
+              <div id="paypal-button-container" class="" style="margin-bottom: 22rem;"></div>
+            </div><br>
+            <a class="btn btn-order btn-lg me-5 rounded-0 merriweather" style="width: 28rem;" href="">Revénir à l'acceuil principale</a> 
+          </div>
+          <div class="col-md-6">
+              <div class="card" style="width: -28rem; height: 18rem;">
+                <img src="../../static/images/payp.jpg" alt="">
+                <!-- <p style="margin-left: 2rem; margin-top: 4rem;">Numero location :</p>
+                <p style="margin-left: 2rem;">Date de paiement :</p>
+                <p style="margin-left: 2rem;">Montants :</p> -->
+             </div> 
+          </div>
+       </div>
+    </div>
+
+    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: orange;">
+            <h5 class="modal-title" id="exampleModalLabel" style="color: white;"><img src="{% static 'images/orange.png' %}" style="width: 55px; border-radius: 12px;" alt=""> Web Paiement avec Orange Money </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action=""  method="POST" enctype="multipart/form-data" role="form">
+                 {% csrf_token %}
+
+                <div class="mb-3">
+                  <label for="date" class="col-form-label">Date de paiement:</label>
+                  <div class="form-group">
+                     <input type="date" class="form-control" name="date_pay" id="date"/>
+                  </div>
+               </div>    
+              <div class="mb-3">
+               <label for="nomclient">Nom de client</label>
+               <select class="form-control" name="nom_client" id="nomclient">
+                   <option value="">--------Choisir votre nom-------</option>
+                   {% for client in client %}
+                     <option value="{{client.id_client}}">{{client.nom}}</option>
+                   {% endfor %}
+               </select>
+              </div>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Entrer le numéro de compte: 255 255 255 255</label>
+                <input type="number" name="num_compte" class="form-control" id="recipient-compte">
+              </div>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Entrer les montants:</label>
+                <input type="number" name="montants" class="form-control" id="recipient-name">
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="submit" class="btn" style="background-color: orange; color: white;">Envoyer</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div> -->
+
+ </section>    
+ 
+{% endblock %}
+
+
+
+<!-- <html>
+    <head>
+        <title>Simple Checkout</title>
+        <meta id="meta" name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=0;"/>
+    </head>
+    <body>
+        <h1>Simple Checkout</h1>
+
+        <div id="paypal-button-container"></div>
+        <script src="https://www.paypal.com/sdk/js?client-id=AXB7wtlJiNM-2S84M5PoTWJmXAppsUlefZjfUNh_80rvInAk4cO37qHXpDCJleJ8Sau4GhDmhLDCy-HW&currency=USD"></script>
+
+        <script>
+
+            paypal.Buttons({
+      
+              // Sets up the transaction when a payment button is clicked
+      
+              style: {
+                color:  'blue',
+                shape:  'rect',
+                label:  'pay',
+                height: 40
+            },
+
+              createOrder: (data, actions) => {
+      
+                return actions.order.create({
+      
+                  purchase_units: [{
+      
+                    amount: {
+      
+                      value: '77.44' // Can also reference a variable or function
+      
+                    }
+      
+                  }]
+      
+                });
+      
+              },
+      
+              // Finalize the transaction after payer approval
+      
+              onApprove: (data, actions) => {
+      
+                return actions.order.capture().then(function(orderData) {
+      
+                  // Successful capture! For dev/demo purposes:
+      
+                  console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+      
+                  const transaction = orderData.purchase_units[0].payments.captures[0];
+      
+                  alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+      
+                  // When ready to go live, remove the alert and show a success message within this page. For example:
+      
+                  // const element = document.getElementById('paypal-button-container');
+      
+                  // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+      
+                  // Or go to another URL:  actions.redirect('thank_you.html');
+      
+                });
+      
+              }
+      
+            }).render('#paypal-button-container');
+        </script>
+    </body>
+</html> -->

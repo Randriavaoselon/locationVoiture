@@ -1,0 +1,219 @@
+{% extends "base/base.html" %}
+{% block title %} Inscription {% endblock title%}
+{% load static %}
+{% block content %}
+   
+    <style>
+      body{
+         font-family: 'Poppin', sans-serif;
+         background-image: url('../../static/images/vt1.webp');
+         background-repeat: no-repeat;
+         background-size: 100%;
+         background-attachment: fixed;
+      }
+
+      .btn-file{
+         position: relative;
+         overflow: hidden;
+      }
+      .btn-file input[type=file]{
+         position: absolute;
+         top: 0;
+         right: 0;
+         min-width: 100%;
+         min-height: 100%;
+         font-size: 100px;
+         text-align: right;
+         filter: alpha(opacity=0);
+         opacity: 0;
+         background: white;
+         outline: none;
+         cursor: pointer;
+         display: block;
+      }
+    </style>
+
+    <div class="container-fuild" style="margin-top: 30px;">
+       <div class="row">
+         <div class="col-md-10 offset-md-1">
+            <div class="card" style="border-color: blue;">
+               <div class="card-header bg-info text-white">
+                  <h><b>Inscriptions</b></h>
+               </div>
+               <div class="card-body" style="background-color: #e9ecef;">
+                  <form action="" method="POST" url="/upload-picture" enctype="multipart/form-data" role="form">
+                     {% csrf_token %}
+                     <div class="row">
+                        <div class="col-md-8">
+                           <div class="row">
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="nom_client">Nom et Prenom</label>
+                                    <input type="text" class="form-control" name="nom" id="nom_client" required="">
+
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="prenom_client">Nationalité</label>
+                                    <select class="form-control" name="nation" id="nation">
+                                       <option value="">Votre nationaliter</option>
+                                       <option value="Malagasy">Malagasy</option>
+                                       <option value="Etranger">Etranger</option>
+                                    </select>
+
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="date_nais">Date de naissance</label>
+                                    <input type="date" class="form-control" min="1987-01-01" max="1999-01-01" name="date_nais" id="date_nais">
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="email_client">Email</label>
+                                    <input type="email" class="form-control" name="email" id="email_client" placeholder="exemple@gmail.com" required="">
+
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="ville_client">Ville</label>
+                                    <input type="text" class="form-control" name="ville" id="ville_client" required="">
+
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="add_client">Adresse</label>
+                                    <input type="text" class="form-control" name="adresse" id="add_client" required="">
+
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="cin_client">Cin</label>
+                                    <input type="number" class="form-control" name="cins" id="cin_client" required="">
+
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="cp_client">Code Postale</label>
+                                    <input type="number" class="form-control" name="cd_poste" id="cp_client" required="">
+                                    <span id="available"></span>
+                                 </div>
+                              </div>
+
+                           </div>
+                        </div>
+                        <!-- display image -->
+                        <div class="col-md-4">
+                           <div class="row">
+                              <div class="col-md-12" id="selectedBanner">
+                                 <div class="text-align: center;">
+                                    <img id="img-upload">
+                                    <div >
+                                       <img src="{% static 'images/profile.png' %}" id="image" alt="" width="200px" height="180px">
+                                    </div>
+                                    <br><br>
+                                    <div class="input-group">
+                                       <span class="input-group-btn">
+                                          <span class="btn btn-info btn-file">
+                                             Choisir l'image <input type="file" id="img" name="avatar" onchange="previewPicture(this)" required>
+                                          </span>
+                                       </span>
+                                       <input type="text" class="form-control" name="cin" id="indica" placeholder="Mettez votre photo" readonly>
+                                    </div>
+                                 </div> 
+                              </div>
+                              <!-- Departement -->
+                              <div class="col-md-12">
+                                 <div class="form-group">
+
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <!-- Salary -->
+                        <div class="col-md-4">
+                             <div class="form-group">
+                                <label for="phone_client">Phone</label>
+                                <input type="text" class="form-control" name="tel" id="phone_client" required="">
+                             </div>
+                        </div>
+
+                        <!-- incentive -->
+                        <div class="col-md-4">
+                           <div class="form-group">
+                              <label for="np_client">Numero permis</label>
+                              <input type="text" class="form-control" name="num_permis" id="np_client" required="">
+                           </div>
+                        </div>
+
+                        <!-- langue -->
+                        <div class="col-md-4">
+                           <fieldset class="form-group">
+                              <p>Genre</p>
+
+                              <div class="form-check-inline">
+                                 <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="sex" value="Homme">Homme
+                                 </label>
+                              </div>
+                              <div class="form-check-inline">
+                                 <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="sex" value="Femme">Femme
+                                 </label>
+                              </div>
+                           </fieldset>
+                        </div>
+
+                         <!-- Boutton -->
+                         <div class="modal-footer" style="text-align: center;">
+                           <a class="btn btn-warning" style="width: 100px; border-radius: 10px;" href="{% url 'a_inscription' %}">Retour</a>
+                             &nbsp;&nbsp;
+                            <input type="submit" id="btn" name="" value="Envoyer" class="btn btn-primary" style="width: 100px; border-radius: 10px;">
+                             &nbsp;&nbsp;
+                         </div>
+
+                     </div>
+                  </form>
+               </div>
+            </div>
+            <br><br>
+         </div>
+       </div>
+    </div>
+
+  <script type="text/javascript" >
+    // L'image img#image
+    var image = document.getElementById("image");
+     
+    // La fonction previewPicture
+    var previewPicture  = function (e) {
+
+        // e.files contient un objet FileList
+        const [picture] = e.files
+
+        // "picture" est un objet File
+        if (picture) {
+            // On change l'URL de l'image
+            image.src = URL.createObjectURL(picture)
+        }
+    } 
+  </script>
+
+{% endblock %}
+
+ Ipsa tempore molestias laborum perspiciatis mollitia reiciendis dolor, sint, nostrum alias expedita, aperiam in. Illo delectus optio, ullam debitis a id laborum?

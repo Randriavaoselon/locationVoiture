@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DropDown</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+</head>
+<body>
+ 
+  <div class="container">
+  <div class="card body">
+    <br/>
+    <br/>
+    <br/>
+    
+    <div class="row">
+    <div class="col-md-6">
+        <p>A hidden select element:</p>
+        <select name="" id="ddlselect" class="select1" hidden>
+            <option value="">-- Select city -- </option>
+            {% for loueur in agenceUser  %}
+            <option value="{{loueur.id}}">{{loueur.userLoueur.user}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-6">
+        <div class="form-control">
+          <input type="text" id="txtResults" class="txt">
+        </div>
+    </div>
+
+    <!-- <div class="col-md-4">
+         
+        <select name="dept" id="department" class="form-control" hidden>       
+            <option value="0">--Select--</option>     
+            {% for item in loueur  %}
+            <option value="{{ item.id }}">{{ item.user }}</option>
+            {% endfor %}
+        </select>
+    </div>
+   
+    <div class="col-md-4">
+        <select name="emp" id="Employee" class="form-control">
+            <option value="0">--Select--</option>  
+            {% for item in empcontext  %}
+            <option value="{{ item.userLoueur_id }}">{{ item.nom_agence }}</option>
+            {% endfor %}
+        </select>
+    </div> -->
+
+<br><br>
+    <div class="col-md-6">
+         
+        <select name="dept" id="agences" class="select2">       
+            <option value="0">--Select--</option>     
+            {% for item in agence  %}
+            <option value="{{ item.id }}">{{ item.nom_agence }}</option>
+            {% endfor %}
+        </select>
+    </div> 
+    <div class="col-md-6">
+        <select name="emp"  >
+            <option value="0">--Select--</option>  
+            {% for loueur in agenceUser  %}
+            <option value="{{ loueur.id }}">{{ loueur.userLoueur.user }}</option>
+            {% endfor %}
+        </select>
+    </div>
+   </div>
+  </div>
+</div>
+ 
+<script>
+    $(document).ready(function(){
+ 
+    var department = $("#department");
+    var Employee = $("#Employee");
+    var $options = department.find('option');
+    Employee.on('change',function(){
+        department.html($options.filter('[value="'+ this.value  +'"]'));
+    }).trigger('change'); 
+    
+    });
+    
+    $(document).ready(function(){
+    var agence = $(".select2");
+    var loueur = $(".select1");
+    var texte = $('.txt');
+    var $options = loueur.find('option');
+    agence.on('change',function(){
+        loueur.html($options.filter('[value="'+ this.value  +'"]'));
+        texte.val(loueur.children("option:selected").text())
+    }).trigger('change');
+});
+
+   
+    
+</script>
+
+</body>
+</html>

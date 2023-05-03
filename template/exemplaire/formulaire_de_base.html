@@ -1,0 +1,180 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+   
+    <style>
+      body{
+         font-family: 'Poppin', sans-serif;
+         background-color: gray;
+         background-attachment: fixed;
+      }
+
+      .btn-file{
+         position: relative;
+         overflow: hidden;
+      }
+      .btn-file input[type=file]{
+         position: absolute;
+         top: 0;
+         right: 0;
+         min-width: 100%;
+         min-height: 100%;
+         font-size: 100px;
+         text-align: right;
+         filter: alpha(opacity=0);
+         opacity: 0;
+         background: white;
+         outline: none;
+         cursor: pointer;
+         display: block;
+      }
+    </style>
+
+    <div class="container-fuild" style="margin-top: 30px;">
+       <div class="row">
+         <div class="col-md-10 offset-md-1">
+            <div class="card" style="border-color: blue;">
+               <div class="card-header bg-info text-white">
+                  <h><b>Inscriptions</b></h>
+               </div>
+               <div class="card-body" style="background-color: #e9ecef;">
+                  <form action="" method="POST" enctype="multipart/form-data" role="form">
+                     <div class="row">
+                        <div class="col-md-8">
+                           <div class="row">
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="nom_client">Nom</label>
+                                    <input type="text" class="form-control" name="" id="nom_client" required="">
+                                    <span id="available"></span>
+                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="prenom_client">Prenom</label>
+                                    <input type="text" class="form-control" name="" id="prenom_client" required="">
+                                    <span id="available"></span>
+                                 </div>
+                              </div>
+                              
+                              <div class="col-md-6">
+                                 <fieldset class="form-group">
+                                    <p>Genre</p>
+
+                                    <div class="form-check-inline">
+                                       <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" name="" value="H">Homme
+                                       </label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                       <label class="form-check-label">
+                                          <input type="radio" class="form-check-input" name="" value="F">Femme
+                                       </label>
+                                    </div>
+                                 </fieldset>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <div class="form-group">
+                                    <label for="date_nais">Date de naissance</label>
+                                    <input type="date" class="form-control" name="" id="date_nais">
+                                 </div>
+                              </div>
+
+                              <div class="col-md-12">
+                                 <div class="form-group">
+                                    <label for="adresse">adresse</label>
+                                    <textarea name="" id="adresse" class="form-control" rows="4"></textarea>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- display image -->
+                        <div class="col-md-4">
+                           <div class="row">
+                              <div class="col-md-12">
+                                 <div class="text-align: center;">
+                                    <img id="img-upload">
+                                    <div id="tem_img">
+                                       <img src="{% static 'images/profile.png' %}" alt="" width="150px" height="180px">
+                                    </div>
+                                    <br><br>
+                                    <div class="input-group">
+                                       <span class="input-group-btn">
+                                          <span class="btn btn-info btn-file">
+                                             Choisir l'image <input type="file" id="input_img" name="">
+                                          </span>
+                                       </span>
+                                       <input type="text" class="form-control" readonly>
+                                    </div>
+                                 </div>
+                              </div>
+                              <!-- Departement -->
+                              <div class="col-md-12">
+                                 <div class="form-group">
+                                    <label for="dep">Departement</label>
+                                    <select class="form-control" name="" id="dep">
+                                       <option value="">--------Choisir un departement-------</option>
+                                    </select>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                      
+                        <!-- Salary -->
+                        <div class="col-md-4">
+                             <div class="form-group">
+                              <label for="sal">Salaire</label>
+                              <select name="" id="sal" class="form-control" required>
+                                 <option value="">--------Choisir un salaire-------</option>
+                              </select>
+                             </div>
+                        </div>
+
+                        <!-- incentive -->
+                        <div class="col-md-4">
+                           <div class="form-group">
+                            <label for="incen">Incentive</label>
+                            <input type="text" name="" class="form-control" id="incen">
+                           </div>
+                        </div>
+
+                         <!-- langue -->
+                         <div class="col-md-4">
+                            <fieldset class="form-group">
+                              <p>Language</p>
+                              <div class="form-check-inline">
+                                 <div class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="" id="lang" value="etranger">Etranger
+                                 </div>
+                              </div>
+
+                              <div class="form-check-inline">
+                                 <div class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="" id="lang" value="malgache">Malgache
+                                 </div>
+                              </div>
+                            </fieldset>   
+                         </div>
+                         <!-- Boutton -->
+                         <div class="col-md-12" style="text-align: center;">
+                            <input type="submit" id="btn" name="" value="Envoyer" class="btn btn-primary" style="width: 100px; border-radius: 10px;">
+                             &nbsp;&nbsp;
+                            <input type="reset" id="reset" name="" value="Retour" class="btn btn-warning" style="width: 100px; border-radius: 10px;">
+                             &nbsp;&nbsp;
+                         </div>
+
+                     </div>
+                  </form>
+               </div>
+            </div>
+            <br><br>
+         </div>
+       </div>
+    </div>
+
+{% endblock %}
+
